@@ -1,0 +1,55 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33627.172
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NPaperless.Services", "NPaperless.Services\NPaperless.Services.csproj", "{F11F6816-9D92-41BB-924E-35EEDDC2862E}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{2BB9C2F7-DB23-4857-9103-9903BE1B4450}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NPaperless.BusinessLogic.Interfaces", "NPaperless.BusinessLogic.Interfaces\NPaperless.BusinessLogic.Interfaces.csproj", "{E447579A-EE0E-491B-B5CA-94B3D8AF76EE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NPaperless.BusinessLogic", "NPaperless.BusinessLogic\NPaperless.BusinessLogic.csproj", "{215D39C1-5D41-4FF6-8BC3-AE4B40F5FD61}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NPaperless.Businesslogic.Tests", "NPaperless.Businesslogic.Tests\NPaperless.Businesslogic.Tests.csproj", "{7607636A-E99A-48C1-88B7-0FF219341DE6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NPaperless.BusinessLogic.Entities", "NPaperless.BusinessLogic.Entities\NPaperless.BusinessLogic.Entities.csproj", "{BC262AC1-C415-41FD-BE7A-C961BCCBA523}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F11F6816-9D92-41BB-924E-35EEDDC2862E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F11F6816-9D92-41BB-924E-35EEDDC2862E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F11F6816-9D92-41BB-924E-35EEDDC2862E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F11F6816-9D92-41BB-924E-35EEDDC2862E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2BB9C2F7-DB23-4857-9103-9903BE1B4450}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2BB9C2F7-DB23-4857-9103-9903BE1B4450}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2BB9C2F7-DB23-4857-9103-9903BE1B4450}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2BB9C2F7-DB23-4857-9103-9903BE1B4450}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E447579A-EE0E-491B-B5CA-94B3D8AF76EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E447579A-EE0E-491B-B5CA-94B3D8AF76EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E447579A-EE0E-491B-B5CA-94B3D8AF76EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E447579A-EE0E-491B-B5CA-94B3D8AF76EE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{215D39C1-5D41-4FF6-8BC3-AE4B40F5FD61}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{215D39C1-5D41-4FF6-8BC3-AE4B40F5FD61}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{215D39C1-5D41-4FF6-8BC3-AE4B40F5FD61}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{215D39C1-5D41-4FF6-8BC3-AE4B40F5FD61}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7607636A-E99A-48C1-88B7-0FF219341DE6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7607636A-E99A-48C1-88B7-0FF219341DE6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7607636A-E99A-48C1-88B7-0FF219341DE6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7607636A-E99A-48C1-88B7-0FF219341DE6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BC262AC1-C415-41FD-BE7A-C961BCCBA523}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BC262AC1-C415-41FD-BE7A-C961BCCBA523}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BC262AC1-C415-41FD-BE7A-C961BCCBA523}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BC262AC1-C415-41FD-BE7A-C961BCCBA523}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {EC215CB5-1530-4BAA-B738-499F4AC17EA7}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  npaperless.services:
+    image: ${DOCKER_REGISTRY-}npaperlessservices
+    build:
+      context: .
+      dockerfile:  NPaperless.Services/Dockerfile
