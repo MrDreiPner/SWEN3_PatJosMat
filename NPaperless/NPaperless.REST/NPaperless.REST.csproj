@@ -4,14 +4,12 @@
     <Copyright>No Copyright</Copyright>
     <Authors>OpenAPI</Authors>
     <TargetFramework>net6.0</TargetFramework>
-    <Nullable>enable</Nullable>
-    <Warnings>nullable</Warnings>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <PreserveCompilationContext>true</PreserveCompilationContext>
     <Version>1.0.0</Version>
     <AssemblyName>NPaperless.REST</AssemblyName>
     <PackageId>NPaperless.REST</PackageId>
-    <UserSecretsId>bc8b809e-530f-4e3c-a141-23d48adc2f96</UserSecretsId>
+    <UserSecretsId>dc6a34da-1b3b-4899-aaa5-7b8311641763</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <DockerfileContext>..\..</DockerfileContext>
   </PropertyGroup>
@@ -22,5 +20,8 @@
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="6.4.0" />
     <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.4.0" />
     <PackageReference Include="JsonSubTypes" Version="1.8.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\NPaperless.BusinessLogic\NPaperless.BusinessLogic.csproj" />
   </ItemGroup>
 </Project>
