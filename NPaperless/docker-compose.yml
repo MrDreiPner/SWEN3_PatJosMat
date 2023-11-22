@@ -34,7 +34,7 @@ services:
     container_name: npaperless-webui
     image: nginx:latest
     volumes:
-      - ./PaperLess.WebUI:/usr/share/nginx/html/
+      - ./NPaperLess.WebUI:/usr/share/nginx/html/
       - ./nginx.conf:/etc/nginx/conf.d/default.conf
     ports:
       - 80:80
