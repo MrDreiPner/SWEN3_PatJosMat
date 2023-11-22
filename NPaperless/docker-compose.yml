@@ -1,23 +1,41 @@
 version: '3.4'
 
 services:
-  npaperless-services:
-    container_name: npaperless-services
-    image: ${DOCKER_REGISTRY-}npaperlessservices
+  # Database service
+  npaperless-db:
+    container_name: npaperless-db
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: npaperless
+      POSTGRES_USER: dev
+      POSTGRES_PASSWORD: dev
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    networks:
+      - npaperless-network
+    restart: unless-stopped
+
+  # REST service
+  npaperless-rest:
+    container_name: npaperless-rest
     build:
       context: .
-      dockerfile:  NPaperless.Services/Dockerfile
+      dockerfile:  NPaperless.REST/Dockerfile
     ports:
       - 8081:8081
     networks:
       - npaperless-network
     restart: unless-stopped
+
+  # WebUI service
   npaperless-webui:
     container_name: npaperless-webui
     image: nginx:latest
     volumes:
       - ./PaperLess.WebUI:/usr/share/nginx/html/
-      - ./Paperless.WebUI/nginx.conf:/etc/nginx/conf.d/default.conf
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
     ports:
       - 80:80
       - 443:443
@@ -28,3 +46,6 @@ services:
 networks:
   npaperless-network:
     driver: bridge
+
+volumes:
+  db_data:
