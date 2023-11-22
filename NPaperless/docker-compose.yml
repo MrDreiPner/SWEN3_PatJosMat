@@ -10,7 +10,7 @@ services:
       POSTGRES_USER: dev
       POSTGRES_PASSWORD: dev
     volumes:
-      - db_data:/var/lib/postgresql/data
+      - db-data:/var/lib/postgresql/data
     ports:
       - 5432:5432
     networks:
@@ -28,6 +28,8 @@ services:
     networks:
       - npaperless-network
     restart: unless-stopped
+    depends_on:
+      - npaperless-db
 
   # WebUI service
   npaperless-webui:
@@ -42,10 +44,12 @@ services:
     networks:
       - npaperless-network
     restart: unless-stopped
+    depends_on:
+      - npaperless-rest
 
 networks:
   npaperless-network:
     driver: bridge
 
 volumes:
-  db_data:
+  db-data:
