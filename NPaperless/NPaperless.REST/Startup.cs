@@ -80,7 +80,6 @@ namespace NPaperless.REST
             services.AddScoped<IValidator<TagBL>, ValidatorTag>();
             services.AddScoped<IValidator<CorrespondentBL>, ValidatorCorrespondent>();
             services.AddScoped<IValidator<DocumentBL>, ValidatorDocument>();
-            services.AddScoped<IValidator<DocumentTypeBL>, ValidatorDocumentType>();
 
             _logger.Info("Adding database context.");
             services.AddDbContext<NPaperlessDbContext>(options => options.UseNpgsql("Host=npaperless-db;Username=dev;Password=dev;Database=npaperless"));
@@ -89,13 +88,9 @@ namespace NPaperless.REST
             services.AddScoped<ITagDALRepository, TagDALRepository>();
 
             services.AddScoped<ITagService, TagService>();
+            services.AddScoped<IDocumentService, DocumentService>();
 
             services.AddBusinessLayer();
-
-            services.AddScoped<IValidator<TagBL>, ValidatorTag>();
-            services.AddScoped<IValidator<CorrespondentBL>, ValidatorCorrespondent>();
-            services.AddScoped<IValidator<DocumentBL>, ValidatorDocument>();
-            services.AddScoped<IValidator<DocumentTypeBL>, ValidatorDocumentType>();
 
      
             services.AddScoped<ITagDALRepository, TagDALRepository>();

@@ -40,9 +40,11 @@ namespace NPaperless.DataAccess.SQL
             return tag;
         }
 
-        public void UpdateTag(TagDAL tag)
+        public TagDAL UpdateTag(TagDAL tag)
         {
             _db.Tags.Update(tag);
+
+            return tag;
         }
 
         public void DeleteTag(int tagID)

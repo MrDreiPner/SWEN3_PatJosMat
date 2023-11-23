@@ -47,7 +47,13 @@ namespace NPaperless.BusinessLogic.Services
 
         public ObjectResult UpdateTag(UpdateTagRequest request)
         {
-            return new ObjectResult(null);
+            TagBL tagBL = _mapper.Map<TagBL>(request);
+
+            TagDAL tagDAL = _mapper.Map<TagDAL>(tagBL);
+
+            var response = _repository.UpdateTag(tagDAL);
+            
+            return new ObjectResult(response);
         }
     }
 }
