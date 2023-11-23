@@ -1,19 +1,27 @@
-﻿using NPaperless.DataAccess.Entities;
+﻿using log4net;
+using NPaperless.DataAccess.Entities;
 using NPaperless.DataAccess.Interfaces;
 
 namespace NPaperless.DataAccess.SQL
 {
     public class DocumentDALRepository : IDocumentDALRepository
     {
-        private NPaperlessDbContext db;
+        private static readonly ILog _logger = LogManager.GetLogger(typeof(DocumentDALRepository));
+
+        private NPaperlessDbContext _db;
         private bool disposed = false;
         public DocumentDALRepository()
         {
-            db = new NPaperlessDbContext();
+            _db = new NPaperlessDbContext();
         }
-        public void AddDocument(DocumentDAL document)
+        public DocumentDAL CreateDocument(DocumentDAL document)
         {
-            throw new NotImplementedException();
+            _logger.Info("Creating tag" + document);
+            _db.Documents.Add(document);
+            _logger.Info("Saving changes" + document);
+            Save();
+            Dispose();
+            return document;
         }
 
         public void DeleteDocument(int documentID)
@@ -38,8 +46,8 @@ namespace NPaperless.DataAccess.SQL
 
         public void Save()
         {
-            db.Database.EnsureCreated();
-            db.SaveChanges();
+            _db.Database.EnsureCreated();
+            _db.SaveChanges();
         }
 
         public void Dispose(bool disposing)
@@ -48,7 +56,7 @@ namespace NPaperless.DataAccess.SQL
             {
                 if (disposing)
                 {
-                    db.Dispose();
+                    _db.Dispose();
                 }
             }
             disposed = true;
