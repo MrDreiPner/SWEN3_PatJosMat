@@ -10,6 +10,9 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NPaperless.BusinessLogic.Entities", "NPaperless.BusinessLogic.Entities\NPaperless.BusinessLogic.Entities.csproj", "{BC262AC1-C415-41FD-BE7A-C961BCCBA523}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NPaperless.REST", "NPaperless.REST\NPaperless.REST.csproj", "{4CCFD476-49E0-4FF1-9EE6-DDA69BC1E08F}"
+	ProjectSection(ProjectDependencies) = postProject
+		{A758CEE3-1537-4634-AD92-989CDD24FF5B} = {A758CEE3-1537-4634-AD92-989CDD24FF5B}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NPaperless.DataAccess.Entities", "NPaperless.DataAccess.Entities\NPaperless.DataAccess.Entities.csproj", "{8B28AE15-EB63-4043-9265-809E7C9D9AA1}"
 EndProject
@@ -20,6 +23,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NPaperless.DataAccess.Tests", "NPaperless.DataAccess.Tests\NPaperless.DataAccess.Tests.csproj", "{4B0822B4-B524-44D8-A2C9-7FBADD1918CE}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NPaperless.BusinessLogic.Tests", "NPaperless.BusinessLogic.Tests\NPaperless.BusinessLogic.Tests.csproj", "{8BDAAA4F-523C-447C-9F6C-561BCF337CCF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NPaperless.REST.DTOs", "NPaperless.REST.Entities\NPaperless.REST.DTOs.csproj", "{A758CEE3-1537-4634-AD92-989CDD24FF5B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -63,6 +68,10 @@ Global
 		{8BDAAA4F-523C-447C-9F6C-561BCF337CCF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8BDAAA4F-523C-447C-9F6C-561BCF337CCF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8BDAAA4F-523C-447C-9F6C-561BCF337CCF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A758CEE3-1537-4634-AD92-989CDD24FF5B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A758CEE3-1537-4634-AD92-989CDD24FF5B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A758CEE3-1537-4634-AD92-989CDD24FF5B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A758CEE3-1537-4634-AD92-989CDD24FF5B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
