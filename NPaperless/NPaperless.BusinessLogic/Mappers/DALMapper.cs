@@ -17,8 +17,6 @@ namespace NPaperless.BusinessLogic.Mappers
 
             CreateMap<DocumentBL, DocumentDAL>().ReverseMap();
 
-            CreateMap<DocumentTypeBL, DocumentTypeDAL>().ReverseMap();
-
             CreateMap<TagBL, TagDAL>().ReverseMap();
         }
     }

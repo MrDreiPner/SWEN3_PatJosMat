@@ -14,6 +14,7 @@ namespace NPaperless.BusinessLogic.Mappers
         public TagMapper()
         {
             CreateMap<CreateTagRequest, TagBL>().ReverseMap();
+            CreateMap<UpdateTagRequest, TagBL>().ReverseMap();
         }
     }
 }

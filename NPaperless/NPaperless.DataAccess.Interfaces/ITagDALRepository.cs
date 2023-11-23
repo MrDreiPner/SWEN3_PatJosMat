@@ -12,7 +12,7 @@ namespace NPaperless.DataAccess.Interfaces
         public TagDAL GetTag(int tag);
         public IEnumerable<TagDAL> GetAllTags();
         public TagDAL CreateTag(TagDAL tag);
-        public void UpdateTag(TagDAL tag);
+        public TagDAL UpdateTag(TagDAL tag);
         public void DeleteTag(int tagID);
         public void Save();
     }

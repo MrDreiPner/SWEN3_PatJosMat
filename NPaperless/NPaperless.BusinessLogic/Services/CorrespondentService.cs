@@ -4,10 +4,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using NPaperless.BusinessLogic.Interfaces;
 
 namespace NPaperless.BusinessLogic.Services
 {
-    internal class CorrespondentService
+    public class CorrespondentService : ICorrespondentService
     {
         private static readonly ILog _logger = LogManager.GetLogger(typeof(CorrespondentService));
     }
