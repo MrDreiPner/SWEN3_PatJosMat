@@ -29,6 +29,8 @@ using FluentValidation;
 using NPaperless.REST.DTOs;
 using NPaperless.BusinessLogic.Entities;
 using NPaperless.BusinessLogic.Validators;
+using NPaperless.DataAccess.Interfaces;
+using NPaperless.DataAccess.SQL;
 
 namespace NPaperless.REST
 {
@@ -66,6 +68,8 @@ namespace NPaperless.REST
             services.AddScoped<IValidator<CorrespondentBL>, ValidatorCorrespondent>();
             services.AddScoped<IValidator<DocumentBL>, ValidatorDocument>();
             services.AddScoped<IValidator<DocumentTypeBL>, ValidatorDocumentType>();
+
+            services.AddScoped<ITagDALRepository, TagDALRepository>();
 
             // Add framework services.
             services
