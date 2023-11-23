@@ -10,41 +10,44 @@ namespace NPaperless.DataAccess.SQL
 {
     public class TagDALRepository : ITagDALRepository
     {
-        private NPaperlessDbContext db;
+        private readonly NPaperlessDbContext _db;
         private bool disposed = false;
         public TagDALRepository()
         {
-            db = new NPaperlessDbContext();
-        }
-        public void AddTag(TagDAL document)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void DeleteTag(int tagID)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<TagDAL> GetAllTags()
-        {
-            throw new NotImplementedException();
+            _db = new NPaperlessDbContext();
         }
 
         public TagDAL GetTag(int tagID)
         {
-            throw new NotImplementedException();
+            return _db.Tags.Find(tagID);
+        }
+
+        public IEnumerable<TagDAL> GetAllTags()
+        {
+            return _db.Tags.ToList();
+        }
+
+        public TagDAL CreateTag(TagDAL tag)
+        {
+            _db.Tags.Add(tag);
+            return tag;
         }
 
         public void UpdateTag(TagDAL tag)
         {
-            throw new NotImplementedException();
+            _db.Tags.Update(tag);
+        }
+
+        public void DeleteTag(int tagID)
+        {
+            TagDAL tag = _db.Tags.Find(tagID);
+            _db.Tags.Remove(tag);
         }
 
         public void Save()
         {
-            db.Database.EnsureCreated();
-            db.SaveChanges();
+            _db.Database.EnsureCreated();
+            _db.SaveChanges();
         }
 
         public void Dispose(bool disposing)
@@ -53,7 +56,7 @@ namespace NPaperless.DataAccess.SQL
             {
                 if (disposing)
                 {
-                    db.Dispose();
+                    _db.Dispose();
                 }
             }
             disposed = true;

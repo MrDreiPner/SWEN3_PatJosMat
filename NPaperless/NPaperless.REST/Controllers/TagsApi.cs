@@ -23,6 +23,7 @@ using NPaperless.BusinessLogic.Entities;
 using AutoMapper;
 using Microsoft.Extensions.Logging;
 using NPaperless.BusinessLogic.Interfaces;
+using NPaperless.DataAccess.Entities;
 
 namespace NPaperless.REST.Controllers
 { 
@@ -53,8 +54,8 @@ namespace NPaperless.REST.Controllers
         public virtual IActionResult CreateTag([FromBody]CreateTagRequest createTagRequest)
         {
             var response = _service.CreateTag(createTagRequest);
-;
-            return StatusCode(response, default(CreateTag200Response));
+
+            return response;
 
             //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(200, default(CreateTag200Response));

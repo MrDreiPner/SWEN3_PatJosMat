@@ -33,6 +33,7 @@ using NPaperless.DataAccess.Interfaces;
 using NPaperless.DataAccess.SQL;
 using NPaperless.BusinessLogic.Services;
 using NPaperless.BusinessLogic.Interfaces;
+using NPaperless.BusinessLogic;
 
 namespace NPaperless.REST
 {
@@ -64,7 +65,7 @@ namespace NPaperless.REST
 
             services.AddCors();
 
-            services.AddAutoMapper(Assembly.GetExecutingAssembly());
+            services.AddBusinessLayer();
 
             services.AddScoped<IValidator<TagBL>, ValidatorTag>();
             services.AddScoped<IValidator<CorrespondentBL>, ValidatorCorrespondent>();
