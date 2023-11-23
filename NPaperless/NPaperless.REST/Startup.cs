@@ -52,9 +52,32 @@ namespace NPaperless.REST
         /// <param name="services"></param>
         public void ConfigureServices(IServiceCollection services)
         {
+<<<<<<< Updated upstream
             services.AddCors();
+=======
+            XmlConfigurator.Configure(new System.IO.FileInfo("log4net.config"));
+            _logger.Info("START: Configure Services ...");
+            _logger.Info("Adding CORS services.");
+            services.AddCors();
+            _logger.Info("Adding business layer services.");
+            services.AddBusinessLayer();
+            _logger.Info("Adding validators.");
+            services.AddScoped<IValidator<TagBL>, ValidatorTag>();
+            services.AddScoped<IValidator<CorrespondentBL>, ValidatorCorrespondent>();
+            services.AddScoped<IValidator<DocumentBL>, ValidatorDocument>();
+            services.AddScoped<IValidator<DocumentTypeBL>, ValidatorDocumentType>();
+
+            _logger.Info("Adding database context.");
+            services.AddDbContext<NPaperlessDbContext>(options => options.UseNpgsql("Host=npaperless-db;Username=dev;Password=dev;Database=npaperless"));
+
+            _logger.Info("Adding repositories and services.");
+            services.AddScoped<ITagDALRepository, TagDALRepository>();
+
+            services.AddScoped<ITagService, TagService>();
+>>>>>>> Stashed changes
 
             // Add framework services.
+            _logger.Info("Configuring framework services.");
             services
                 // Don't need the full MVC stack for an API, see https://andrewlock.net/comparing-startup-between-the-asp-net-core-3-templates/
                 .AddControllers(options => {
@@ -68,6 +91,7 @@ namespace NPaperless.REST
                         NamingStrategy = new CamelCaseNamingStrategy()
                     });
                 });
+            _logger.Info("Configuring Swagger.");
             services
                 .AddSwaggerGen(c =>
                 {
@@ -98,8 +122,10 @@ namespace NPaperless.REST
                     // Use [ValidateModelState] on Actions to actually validate it in C# as well!
                     c.OperationFilter<GeneratePathParamsValidationFilter>();
                 });
-                services
+            _logger.Info("Adding Newtonsoft.Json support for Swagger.");
+            services
                     .AddSwaggerGenNewtonsoftSupport();
+            _logger.Info("END: Configure Services.");
         }
 
         /// <summary>
@@ -109,6 +135,7 @@ namespace NPaperless.REST
         /// <param name="env"></param>
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            _logger.Info("START: Configure Application ...");
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -117,7 +144,6 @@ namespace NPaperless.REST
             {
                 app.UseHsts();
             }
-
             app.UseHttpsRedirection();
             app.UseDefaultFiles();
             app.UseStaticFiles();
@@ -126,7 +152,6 @@ namespace NPaperless.REST
                 .AllowAnyHeader()
                 .SetIsOriginAllowed(origin => true) // allow any origin
                 .AllowCredentials()); // allow credentials
-
             app.UseSwagger(c =>
                 {
                     c.RouteTemplate = "openapi/{documentName}/openapi.json";
@@ -141,11 +166,13 @@ namespace NPaperless.REST
                     //TODO: Or alternatively use the original OpenAPI contract that's included in the static files
                     // c.SwaggerEndpoint("/openapi-original.json", "Paperless Rest Server Original");
                 });
+            _logger.Info("Configuring Routing and Endpoints.");
             app.UseRouting();
             app.UseEndpoints(endpoints =>
                 {
                     endpoints.MapControllers();
                 });
+            _logger.Info("END: Configure Application.");
         }
     }
 }
