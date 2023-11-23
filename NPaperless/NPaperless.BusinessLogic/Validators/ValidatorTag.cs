@@ -21,7 +21,6 @@ namespace NPaperless.BusinessLogic.Validators
             RuleSet("ValidateAlgorithmPresentAndDocCount", () =>
             {
                 RuleFor(Tag => Tag.MatchingAlgorithm).GreaterThan(0).WithMessage("MatchingAlgorithm must be greater than 0");
-                RuleFor(Tag => Tag.DocumentCount).GreaterThanOrEqualTo(0).WithMessage("DocumentCount must be greater than or equal to 0");
             });
         }
     }

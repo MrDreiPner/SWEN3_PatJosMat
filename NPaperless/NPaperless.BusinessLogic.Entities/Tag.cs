@@ -49,10 +49,5 @@
         /// Gets or Sets IsInboxTag
         /// </summary>
         public bool IsInboxTag { get; set; }
-
-        /// <summary>
-        /// Gets or Sets DocumentCount
-        /// </summary>
-        public long DocumentCount { get; set; }
     }
 }

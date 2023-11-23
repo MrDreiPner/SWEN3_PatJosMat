@@ -9,7 +9,6 @@ namespace NPaperless.DataAccess.Entities{
         public long MatchingAlgorithm { get; set; }
         public bool IsInsensitive { get; set; }
         public bool IsInboxTag { get; set; }
-        public long DocumentCount { get; set; }
     }
 
 }
