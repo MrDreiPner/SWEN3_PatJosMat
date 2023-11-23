@@ -1,4 +1,5 @@
-﻿using NPaperless.DataAccess.Entities;
+﻿using log4net;
+using NPaperless.DataAccess.Entities;
 using NPaperless.DataAccess.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -10,11 +11,14 @@ namespace NPaperless.DataAccess.SQL
 {
     public class TagDALRepository : ITagDALRepository
     {
+        private static readonly ILog _logger = LogManager.GetLogger(typeof(TagDALRepository));
+
         private readonly NPaperlessDbContext _db;
         private bool disposed = false;
         public TagDALRepository(NPaperlessDbContext db)
         {
             _db = db;
+            _db.Database.EnsureCreated();
         }
 
         public TagDAL GetTag(int tagID)
@@ -29,7 +33,9 @@ namespace NPaperless.DataAccess.SQL
 
         public TagDAL CreateTag(TagDAL tag)
         {
+            _logger.Info("Creating tag" + tag);
             _db.Tags.Add(tag);
+            _logger.Info("Saving changes" + tag);
             Save();
             return tag;
         }

@@ -17,7 +17,7 @@ namespace NPaperless.DataAccess.SQL
         public DbSet<TagDAL> Tags { get; set; }
         public NPaperlessDbContext() { }
         public NPaperlessDbContext(DbContextOptions<NPaperlessDbContext> options) : base(options) { }
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+/*        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             var isConfigured = optionsBuilder.IsConfigured;
             if (!isConfigured)
@@ -25,6 +25,6 @@ namespace NPaperless.DataAccess.SQL
                 optionsBuilder.UseNpgsql("Host=npaperless-db;Username=dev;Password=dev;Database=npaperless");
                 //AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
             }
-        }
+        }*/
     }
 }
