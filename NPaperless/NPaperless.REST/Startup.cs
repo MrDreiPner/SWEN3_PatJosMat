@@ -33,6 +33,8 @@ using NPaperless.DataAccess.Interfaces;
 using NPaperless.DataAccess.SQL;
 using NPaperless.BusinessLogic.Services;
 using NPaperless.BusinessLogic.Interfaces;
+using log4net;
+using log4net.Config;
 using NPaperless.BusinessLogic;
 using Microsoft.EntityFrameworkCore;
 
@@ -43,6 +45,7 @@ namespace NPaperless.REST
     /// </summary>
     public class Startup
     {
+        private static readonly ILog _logger = LogManager.GetLogger(typeof(Startup));
         /// <summary>
         /// Constructor
         /// </summary>
@@ -63,7 +66,8 @@ namespace NPaperless.REST
         /// <param name="services"></param>
         public void ConfigureServices(IServiceCollection services)
         {
-
+            XmlConfigurator.Configure(new System.IO.FileInfo("log4net.config"));
+            _logger.Debug("This epic Debug");
             services.AddCors();
 
             services.AddBusinessLayer();
