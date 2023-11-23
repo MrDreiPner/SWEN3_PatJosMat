@@ -6,4 +6,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\NPaperless.DataAccess.Interfaces\NPaperless.DataAccess.Interfaces.csproj" />
+	  <ProjectReference Include="..\NPaperless.DataAccess.Entities\NPaperless.DataAccess.Entities.csproj" />
+  </ItemGroup>
+
 </Project>

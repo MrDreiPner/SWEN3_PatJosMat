@@ -1,4 +1,4 @@
-﻿namespace NPaperLess.BusinessLogic.Entities
+﻿namespace NPaperless.BusinessLogic.Entities
 {
     /// <summary>
     /// Tag Entity for working in the Controllers

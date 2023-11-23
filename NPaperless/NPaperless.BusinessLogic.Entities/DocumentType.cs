@@ -1,4 +1,4 @@
-﻿namespace NPaperLess.BusinessLogic.Entities
+﻿namespace NPaperless.BusinessLogic.Entities
 {
     /// <summary>
     /// DocumentType Entity for working in the Controllers

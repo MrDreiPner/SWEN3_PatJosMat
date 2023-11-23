@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 
-namespace NPaperLess.BusinessLogic.Entities
+namespace NPaperless.BusinessLogic.Entities
 {
     /// <summary>
     /// Document Entity for working in the Controllers

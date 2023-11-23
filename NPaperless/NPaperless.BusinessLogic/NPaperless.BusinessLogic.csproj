@@ -7,6 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="FluentValidation" Version="11.8.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="5.0.17" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\NPaperless.BusinessLogic.Entities\NPaperless.BusinessLogic.Entities.csproj" />
     <ProjectReference Include="..\NPaperless.BusinessLogic.Interfaces\NPaperless.BusinessLogic.Interfaces.csproj" />
   </ItemGroup>

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NPaperLess.BusinessLogic.Entities {
+namespace NPaperless.BusinessLogic.Entities {
     public class BusinessLogicResult<T> {
         public bool IsSuccess { get; set; }
         public T? Result { get; set; }

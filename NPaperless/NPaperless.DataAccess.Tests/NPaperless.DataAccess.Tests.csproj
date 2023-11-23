@@ -17,4 +17,10 @@
     <PackageReference Include="coverlet.collector" Version="3.2.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\NPaperless.DataAccess.Entities\NPaperless.DataAccess.Entities.csproj" />
+    <ProjectReference Include="..\NPaperless.DataAccess.Interfaces\NPaperless.DataAccess.Interfaces.csproj" />
+    <ProjectReference Include="..\NPaperless.DataAccess.SQL\NPaperless.DataAccess.SQL.csproj" />
+  </ItemGroup>
+
 </Project>
