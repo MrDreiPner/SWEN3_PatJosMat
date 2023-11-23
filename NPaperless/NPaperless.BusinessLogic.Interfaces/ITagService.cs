@@ -6,7 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 namespace NPaperless.BusinessLogic.Interfaces {
 
     public interface ITagService {
-        public ObjectResult CreateTag(CreateTagRequest tag);        
+        public ObjectResult CreateTag(CreateTagRequest tag);
+        public ObjectResult UpdateTag(UpdateTagRequest tag);
     }
 
 }

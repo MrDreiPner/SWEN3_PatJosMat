@@ -44,5 +44,10 @@ namespace NPaperless.BusinessLogic.Services
 
             return new ObjectResult(response);
         }
+
+        public ObjectResult UpdateTag(UpdateTagRequest request)
+        {
+            return new ObjectResult(null);
+        }
     }
 }
