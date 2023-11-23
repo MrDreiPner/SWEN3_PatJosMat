@@ -15,7 +15,6 @@ namespace NPaperless.BusinessLogic.Validators
             RuleSet("RequiredData", () =>
             {
                 RuleFor(DocumentType => DocumentType.Title).NotEmpty().NotNull().WithMessage("Title required");
-                RuleFor(DocumentType => DocumentType.UploadDocument).NotEmpty().NotNull().WithMessage("Document required");
             });
         }
     }

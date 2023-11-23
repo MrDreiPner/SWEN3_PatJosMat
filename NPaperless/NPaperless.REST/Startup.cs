@@ -37,6 +37,8 @@ using log4net;
 using log4net.Config;
 using NPaperless.BusinessLogic;
 using Microsoft.EntityFrameworkCore;
+using Minio;
+using System.Threading.Tasks;
 
 namespace NPaperless.REST
 {
@@ -66,16 +68,15 @@ namespace NPaperless.REST
         /// <param name="services"></param>
         public void ConfigureServices(IServiceCollection services)
         {
-
-            XmlConfigurator.Configure(new System.IO.FileInfo("log4net.config"));
-            _logger.Debug("This epic Debug");
-            services.AddCors();
             XmlConfigurator.Configure(new System.IO.FileInfo("log4net.config"));
             _logger.Info("START: Configure Services ...");
+
             _logger.Info("Adding CORS services.");
             services.AddCors();
+
             _logger.Info("Adding business layer services.");
             services.AddBusinessLayer();
+
             _logger.Info("Adding validators.");
             services.AddScoped<IValidator<TagBL>, ValidatorTag>();
             services.AddScoped<IValidator<CorrespondentBL>, ValidatorCorrespondent>();
@@ -86,19 +87,28 @@ namespace NPaperless.REST
 
             _logger.Info("Adding repositories and services.");
             services.AddScoped<ITagDALRepository, TagDALRepository>();
+            services.AddScoped<IDocumentDALRepository, DocumentDALRepository>();
 
             services.AddScoped<ITagService, TagService>();
             services.AddScoped<IDocumentService, DocumentService>();
 
-            services.AddBusinessLayer();
-
-     
-            services.AddScoped<ITagDALRepository, TagDALRepository>();
-
-            services.AddScoped<ITagService, TagService>();
 
             // Add framework services.
             _logger.Info("Configuring framework services.");
+            services.AddSingleton<MinioClient>(provider =>
+            {
+                _logger.Info("Doing mario stuff");
+
+                var minioClient = new MinioClient()
+                .WithEndpoint("npaperless-minio")
+                .WithCredentials("npaperless", "npaperless")
+                .Build();
+
+                //EnsureBucketExistsAsync(minioClient, "npaperless-bucket").Wait();
+
+                return minioClient;
+            });
+
             services
                 // Don't need the full MVC stack for an API, see https://andrewlock.net/comparing-startup-between-the-asp-net-core-3-templates/
                 .AddControllers(options => {
@@ -194,6 +204,32 @@ namespace NPaperless.REST
                     endpoints.MapControllers();
                 });
             _logger.Info("END: Configure Application.");
+        }
+
+        private async Task EnsureBucketExistsAsync(IMinioClient minioClient, string bucketName)
+        {
+            try
+            {
+                _logger.Info("Looking for my bucket");
+
+                // Check if the bucket already exists
+                var bucketExistsArgs = new BucketExistsArgs().WithBucket(bucketName);
+                bool bucketExists = await minioClient.BucketExistsAsync(bucketExistsArgs);
+
+
+
+                // If the bucket doesn't exist, create it
+                if (!bucketExists)
+                {
+                    _logger.Info("Bucket not exists");
+                    var makeBucketArgs = new MakeBucketArgs().WithBucket(bucketName);
+                    await minioClient.MakeBucketAsync(makeBucketArgs);
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.Info("Upsi Pupsi");
+            }
         }
     }
 }

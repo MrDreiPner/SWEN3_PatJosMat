@@ -18,8 +18,8 @@ services:
     restart: unless-stopped
 
   #MinIO Storage
-  npaperless-storage:
-    container_name: npaperless-storage
+  npaperless-minio:
+    container_name: npaperless-minio
     image: quay.io/minio/minio
     environment:
       - MINIO_ROOT_USER=npaperless
