@@ -17,6 +17,23 @@ services:
       - npaperless-network
     restart: unless-stopped
 
+  #MinIO Storage
+  npaperless-storage:
+    container_name: npaperless-storage
+    image: quay.io/minio/minio
+    environment:
+      - MINIO_ROOT_USER=npaperless
+      - MINIO_ROOT_PASSWORD=npaperless
+      - MINIO_ACCESS_KEY=npaperless
+      - MINIO_SECRET_KEY=npaperless
+      - MINIO_DEFAULT_BUCKETS=npaperless-docs
+    ports:
+      - 9000:9000
+      - 9090:9090
+    volumes:
+      - minio-data:/data
+    command: ["server", "/data", "--console-address", ":9090"]
+
   # REST service
   npaperless-rest:
     container_name: npaperless-rest
@@ -53,3 +70,4 @@ networks:
 
 volumes:
   db-data:
+  minio-data:
