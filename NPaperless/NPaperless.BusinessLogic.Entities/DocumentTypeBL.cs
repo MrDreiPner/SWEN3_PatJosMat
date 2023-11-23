@@ -3,7 +3,7 @@
     /// <summary>
     /// DocumentType Entity for working in the Controllers
     /// </summary>
-    public class DocumentType
+    public class DocumentTypeBL
     {
         /// <summary>
         /// Gets or Sets Id

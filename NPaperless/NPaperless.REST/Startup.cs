@@ -20,10 +20,15 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
+using AutoMapper;
 using NPaperless.REST.Authentication;
 using NPaperless.REST.Filters;
 using NPaperless.REST.OpenApi;
 using NPaperless.REST.Formatters;
+using FluentValidation;
+using NPaperless.REST.DTOs;
+using NPaperless.BusinessLogic.Entities;
+using NPaperless.BusinessLogic.Validators;
 
 namespace NPaperless.REST
 {
@@ -52,7 +57,15 @@ namespace NPaperless.REST
         /// <param name="services"></param>
         public void ConfigureServices(IServiceCollection services)
         {
+
             services.AddCors();
+
+            services.AddAutoMapper(Assembly.GetExecutingAssembly());
+
+            services.AddScoped<IValidator<TagBL>, ValidatorTag>();
+            services.AddScoped<IValidator<CorrespondentBL>, ValidatorCorrespondent>();
+            services.AddScoped<IValidator<DocumentBL>, ValidatorDocument>();
+            services.AddScoped<IValidator<DocumentTypeBL>, ValidatorDocumentType>();
 
             // Add framework services.
             services

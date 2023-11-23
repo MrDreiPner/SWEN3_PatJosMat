@@ -3,7 +3,7 @@ namespace NPaperless.BusinessLogic.Entities
     /// <summary>
     /// Correspondant Entity for working in the Controllers
     /// </summary>
-    public class Correspondent
+    public class CorrespondentBL
     {
         /// <summary>
         /// Gets or Sets Id

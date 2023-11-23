@@ -3,7 +3,7 @@
     /// <summary>
     /// Tag Entity for working in the Controllers
     /// </summary>
-    public class Tag
+    public class TagBL
     {
         /// <summary>
         /// Gets or Sets Id

@@ -3,7 +3,7 @@
     /// <summary>
     /// UserInfo Entity for working in the Controllers
     /// </summary>
-    public class UserInfo
+    public class UserInfoBL
     {
         /// <summary>
         /// Gets or Sets Username

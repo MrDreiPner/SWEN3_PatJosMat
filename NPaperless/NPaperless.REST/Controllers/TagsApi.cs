@@ -19,6 +19,8 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 using Newtonsoft.Json;
 using NPaperless.REST.Attributes;
 using NPaperless.REST.DTOs;
+using NPaperless.BusinessLogic.Entities;
+using AutoMapper;
 
 namespace NPaperless.REST.Controllers
 { 
@@ -41,6 +43,9 @@ namespace NPaperless.REST.Controllers
         [SwaggerResponse(statusCode: 200, type: typeof(CreateTag200Response), description: "Success")]
         public virtual IActionResult CreateTag([FromBody]CreateTagRequest createTagRequest)
         {
+            response = _bl.CreateNewTag(createTagRequest);
+;
+            return Response;
 
             //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(200, default(CreateTag200Response));

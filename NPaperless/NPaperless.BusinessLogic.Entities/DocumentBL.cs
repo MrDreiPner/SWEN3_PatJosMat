@@ -5,7 +5,7 @@ namespace NPaperless.BusinessLogic.Entities
     /// <summary>
     /// Document Entity for working in the Controllers
     /// </summary>
-    public class Document
+    public class DocumentBL
     {
         /// <summary>
         /// Gets or Sets Id

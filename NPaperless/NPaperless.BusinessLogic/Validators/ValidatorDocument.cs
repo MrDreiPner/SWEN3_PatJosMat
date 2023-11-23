@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace NPaperless.BusinessLogic.Validators
 {
-    internal class ValidatorDocument : AbstractValidator<Document>
+    public class ValidatorDocument : AbstractValidator<DocumentBL>
     {
         public ValidatorDocument()
         {

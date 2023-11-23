@@ -8,7 +8,7 @@ using FluentValidation;
 
 namespace NPaperless.BusinessLogic.Validators
 {
-    internal class ValidatorDocumentType : AbstractValidator<DocumentType>
+    public class ValidatorDocumentType : AbstractValidator<DocumentTypeBL>
     {
         public ValidatorDocumentType() {
             RuleSet("RequiredData", () =>
