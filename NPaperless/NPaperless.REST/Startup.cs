@@ -20,10 +20,23 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
+using AutoMapper;
 using NPaperless.REST.Authentication;
 using NPaperless.REST.Filters;
 using NPaperless.REST.OpenApi;
 using NPaperless.REST.Formatters;
+using FluentValidation;
+using NPaperless.REST.DTOs;
+using NPaperless.BusinessLogic.Entities;
+using NPaperless.BusinessLogic.Validators;
+using NPaperless.DataAccess.Interfaces;
+using NPaperless.DataAccess.SQL;
+using NPaperless.BusinessLogic.Services;
+using NPaperless.BusinessLogic.Interfaces;
+using log4net;
+using log4net.Config;
+using NPaperless.BusinessLogic;
+using Microsoft.EntityFrameworkCore;
 
 namespace NPaperless.REST
 {
@@ -32,6 +45,7 @@ namespace NPaperless.REST
     /// </summary>
     public class Startup
     {
+        private static readonly ILog _logger = LogManager.GetLogger(typeof(Startup));
         /// <summary>
         /// Constructor
         /// </summary>
@@ -52,9 +66,10 @@ namespace NPaperless.REST
         /// <param name="services"></param>
         public void ConfigureServices(IServiceCollection services)
         {
-<<<<<<< Updated upstream
+
+            XmlConfigurator.Configure(new System.IO.FileInfo("log4net.config"));
+            _logger.Debug("This epic Debug");
             services.AddCors();
-=======
             XmlConfigurator.Configure(new System.IO.FileInfo("log4net.config"));
             _logger.Info("START: Configure Services ...");
             _logger.Info("Adding CORS services.");
@@ -74,7 +89,19 @@ namespace NPaperless.REST
             services.AddScoped<ITagDALRepository, TagDALRepository>();
 
             services.AddScoped<ITagService, TagService>();
->>>>>>> Stashed changes
+
+            services.AddBusinessLayer();
+
+            services.AddScoped<IValidator<TagBL>, ValidatorTag>();
+            services.AddScoped<IValidator<CorrespondentBL>, ValidatorCorrespondent>();
+            services.AddScoped<IValidator<DocumentBL>, ValidatorDocument>();
+            services.AddScoped<IValidator<DocumentTypeBL>, ValidatorDocumentType>();
+
+     
+            services.AddDbContext<NPaperlessDbContext>(options => options.UseNpgsql("Host=npaperless-db;Username=dev;Password=dev;Database=npaperless"));
+            services.AddScoped<ITagDALRepository, TagDALRepository>();
+
+            services.AddScoped<ITagService, TagService>();
 
             // Add framework services.
             _logger.Info("Configuring framework services.");

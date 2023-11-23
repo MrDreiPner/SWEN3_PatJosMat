@@ -1,9 +1,9 @@
-﻿namespace NPaperless.BusinessLogic.Entities
+namespace NPaperless.BusinessLogic.Entities
 {
     /// <summary>
-    /// Tag Entity for working in the Controllers
+    /// Correspondant Entity for working in the Controllers
     /// </summary>
-    public class Tag
+    public class CorrespondentBL
     {
         /// <summary>
         /// Gets or Sets Id
@@ -21,16 +21,6 @@
         public string Name { get; set; }
 
         /// <summary>
-        /// Gets or Sets Color
-        /// </summary>
-        public string Color { get; set; }
-
-        /// <summary>
-        /// Gets or Sets Color
-        /// </summary>
-        public string? TextColor { get; set; }
-
-        /// <summary>
         /// Gets or Sets Match
         /// </summary>
         public string Match { get; set; }
@@ -46,8 +36,14 @@
         public bool IsInsensitive { get; set; }
 
         /// <summary>
-        /// Gets or Sets IsInboxTag
+        /// Gets or Sets DocumentCount
         /// </summary>
-        public bool IsInboxTag { get; set; }
+        public long DocumentCount { get; set; }
+
+        /// <summary>
+        /// Gets or Sets LastCorrespondence
+        /// </summary>
+        public DateTime LastCorrespondence { get; set; }
+
     }
 }

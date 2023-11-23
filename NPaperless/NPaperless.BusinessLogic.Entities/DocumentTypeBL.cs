@@ -1,9 +1,9 @@
-namespace NPaperless.BusinessLogic.Entities
+﻿namespace NPaperless.BusinessLogic.Entities
 {
     /// <summary>
-    /// Correspondant Entity for working in the Controllers
+    /// DocumentType Entity for working in the Controllers
     /// </summary>
-    public class Correspondent
+    public class DocumentTypeBL
     {
         /// <summary>
         /// Gets or Sets Id
@@ -39,11 +39,5 @@ namespace NPaperless.BusinessLogic.Entities
         /// Gets or Sets DocumentCount
         /// </summary>
         public long DocumentCount { get; set; }
-
-        /// <summary>
-        /// Gets or Sets LastCorrespondence
-        /// </summary>
-        public DateTime LastCorrespondence { get; set; }
-
     }
 }

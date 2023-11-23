@@ -1,4 +1,5 @@
-﻿using NPaperless.DataAccess.Entities;
+﻿using log4net;
+using NPaperless.DataAccess.Entities;
 using NPaperless.DataAccess.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -10,41 +11,50 @@ namespace NPaperless.DataAccess.SQL
 {
     public class TagDALRepository : ITagDALRepository
     {
-        private NPaperlessDbContext db;
+        private static readonly ILog _logger = LogManager.GetLogger(typeof(TagDALRepository));
+
+        private readonly NPaperlessDbContext _db;
         private bool disposed = false;
-        public TagDALRepository()
+        public TagDALRepository(NPaperlessDbContext db)
         {
-            db = new NPaperlessDbContext();
-        }
-        public void AddTag(TagDAL document)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void DeleteTag(int tagID)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<TagDAL> GetAllTags()
-        {
-            throw new NotImplementedException();
+            _db = db;
+            _db.Database.EnsureCreated();
         }
 
         public TagDAL GetTag(int tagID)
         {
-            throw new NotImplementedException();
+            return _db.Tags.Find(tagID);
+        }
+
+        public IEnumerable<TagDAL> GetAllTags()
+        {
+            return _db.Tags.ToList();
+        }
+
+        public TagDAL CreateTag(TagDAL tag)
+        {
+            _logger.Info("Creating tag" + tag);
+            _db.Tags.Add(tag);
+            _logger.Info("Saving changes" + tag);
+            Save();
+            return tag;
         }
 
         public void UpdateTag(TagDAL tag)
         {
-            throw new NotImplementedException();
+            _db.Tags.Update(tag);
+        }
+
+        public void DeleteTag(int tagID)
+        {
+            TagDAL tag = _db.Tags.Find(tagID);
+            _db.Tags.Remove(tag);
         }
 
         public void Save()
         {
-            db.Database.EnsureCreated();
-            db.SaveChanges();
+            _db.Database.EnsureCreated();
+            _db.SaveChanges();
         }
 
         public void Dispose(bool disposing)
@@ -53,7 +63,7 @@ namespace NPaperless.DataAccess.SQL
             {
                 if (disposing)
                 {
-                    db.Dispose();
+                    _db.Dispose();
                 }
             }
             disposed = true;

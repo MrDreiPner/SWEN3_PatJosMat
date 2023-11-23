@@ -4,7 +4,7 @@ services:
   # Database service
   npaperless-db:
     container_name: npaperless-db
-    image: postgres:latest
+    image: postgres:14
     environment:
       POSTGRES_DB: npaperless
       POSTGRES_USER: dev

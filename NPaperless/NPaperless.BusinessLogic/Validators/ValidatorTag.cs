@@ -8,9 +8,10 @@ using System.Threading.Tasks;
 
 namespace NPaperless.BusinessLogic.Validators
 {
-    internal class ValidatorTag : AbstractValidator<Tag>
+    public class ValidatorTag : AbstractValidator<TagBL>
     {
-        public ValidatorTag() {
+        public ValidatorTag()
+        {
             RuleSet("RequiredData", () =>
             {
                 RuleFor(Tag => Tag.Id).NotEmpty().NotNull().WithMessage("ID required");

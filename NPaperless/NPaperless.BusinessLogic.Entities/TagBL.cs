@@ -1,9 +1,9 @@
 ﻿namespace NPaperless.BusinessLogic.Entities
 {
     /// <summary>
-    /// DocumentType Entity for working in the Controllers
+    /// Tag Entity for working in the Controllers
     /// </summary>
-    public class DocumentType
+    public class TagBL
     {
         /// <summary>
         /// Gets or Sets Id
@@ -13,17 +13,27 @@
         /// <summary>
         /// Gets or Sets Slug
         /// </summary>
-        public string Slug { get; set; }
+        public string? Slug { get; set; }
 
         /// <summary>
         /// Gets or Sets Name
         /// </summary>
-        public string Name { get; set; }
+        public string? Name { get; set; }
+
+        /// <summary>
+        /// Gets or Sets Color
+        /// </summary>
+        public string? Color { get; set; }
+
+        /// <summary>
+        /// Gets or Sets Color
+        /// </summary>
+        public string? TextColor { get; set; }
 
         /// <summary>
         /// Gets or Sets Match
         /// </summary>
-        public string Match { get; set; }
+        public string? Match { get; set; }
 
         /// <summary>
         /// Gets or Sets MatchingAlgorithm
@@ -36,8 +46,8 @@
         public bool IsInsensitive { get; set; }
 
         /// <summary>
-        /// Gets or Sets DocumentCount
+        /// Gets or Sets IsInboxTag
         /// </summary>
-        public long DocumentCount { get; set; }
+        public bool IsInboxTag { get; set; }
     }
 }
