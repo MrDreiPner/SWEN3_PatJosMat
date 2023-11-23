@@ -31,6 +31,8 @@ using NPaperless.BusinessLogic.Entities;
 using NPaperless.BusinessLogic.Validators;
 using NPaperless.DataAccess.Interfaces;
 using NPaperless.DataAccess.SQL;
+using NPaperless.BusinessLogic.Services;
+using NPaperless.BusinessLogic.Interfaces;
 
 namespace NPaperless.REST
 {
@@ -70,6 +72,8 @@ namespace NPaperless.REST
             services.AddScoped<IValidator<DocumentTypeBL>, ValidatorDocumentType>();
 
             services.AddScoped<ITagDALRepository, TagDALRepository>();
+
+            services.AddScoped<ITagService, TagService>();
 
             // Add framework services.
             services

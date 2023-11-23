@@ -3,6 +3,7 @@ using FluentValidation;
 using FluentValidation.Internal;
 using Microsoft.Extensions.Options;
 using NPaperless.BusinessLogic.Entities;
+using NPaperless.BusinessLogic.Interfaces;
 using NPaperless.DataAccess.Entities;
 using NPaperless.DataAccess.Interfaces;
 using NPaperless.REST.DTOs;
@@ -14,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace NPaperless.BusinessLogic.Services
 {
-    internal class TagService
+    public class TagService : ITagService
     {
         private readonly IMapper _mapper;
         private readonly IValidator _validator;
