@@ -13,17 +13,17 @@
         /// <summary>
         /// Gets or Sets Slug
         /// </summary>
-        public string Slug { get; set; }
+        public string? Slug { get; set; }
 
         /// <summary>
         /// Gets or Sets Name
         /// </summary>
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         /// <summary>
         /// Gets or Sets Color
         /// </summary>
-        public string Color { get; set; }
+        public string? Color { get; set; }
 
         /// <summary>
         /// Gets or Sets Color
@@ -33,7 +33,7 @@
         /// <summary>
         /// Gets or Sets Match
         /// </summary>
-        public string Match { get; set; }
+        public string? Match { get; set; }
 
         /// <summary>
         /// Gets or Sets MatchingAlgorithm

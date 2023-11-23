@@ -68,7 +68,7 @@ namespace NPaperless.REST
             _logger.Debug("This epic Debug");
             services.AddCors();
 
-            services.AddAutoMapper(Assembly.GetExecutingAssembly());
+            services.AddBusinessLayer();
 
             services.AddScoped<IValidator<TagBL>, ValidatorTag>();
             services.AddScoped<IValidator<CorrespondentBL>, ValidatorCorrespondent>();

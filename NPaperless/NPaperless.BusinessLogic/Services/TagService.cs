@@ -9,10 +9,12 @@ using NPaperless.DataAccess.Interfaces;
 using NPaperless.REST.DTOs;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using log4net;
+using Microsoft.AspNetCore.Mvc;
 
 namespace NPaperless.BusinessLogic.Services
 {
@@ -22,21 +24,22 @@ namespace NPaperless.BusinessLogic.Services
         private readonly IValidator _validator;
         private readonly ITagDALRepository _repository;
 
-        public TagService(IMapper mapper, IValidator<TagBL> validator)
+        public TagService(IMapper mapper, IValidator<TagBL> validator, ITagDALRepository repository)
         {
             _mapper = mapper;
             _validator = validator;
+            _repository = repository;
         }
 
-        public int CreateTag(CreateTagRequest request)
+        public ObjectResult CreateTag(CreateTagRequest request)
         {
             TagBL tagBL = _mapper.Map<TagBL>(request);
 
             TagDAL tagDAL = _mapper.Map<TagDAL>(tagBL);
 
-            _repository.AddTag(tagDAL);
+            var response = _repository.CreateTag(tagDAL);
 
-            return 200;
+            return new ObjectResult(response);
         }
     }
 }

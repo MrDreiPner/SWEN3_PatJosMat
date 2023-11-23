@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\NPaperless.BusinessLogic.Entities\NPaperless.BusinessLogic.Entities.csproj" />
+    <ProjectReference Include="..\NPaperless.DataAccess.Entities\NPaperless.DataAccess.Entities.csproj" />
     <ProjectReference Include="..\NPaperless.REST.DTOs\NPaperless.REST.DTOs.csproj" />
   </ItemGroup>
 
