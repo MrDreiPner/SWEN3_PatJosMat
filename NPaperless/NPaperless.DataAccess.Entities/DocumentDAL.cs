@@ -1,8 +1,8 @@
 ﻿namespace NPaperless.DataAccess.Entities{
     public class DocumentDAL
     {
-        public int? Id { get; set; }
-        public int? Correspondent { get; set; }
+        public int Id { get; set; }
+        public int? CorrespondentDAL { get; set; }
         public int? DocumentTypeDAL { get; set; }
         public int? StoragePath { get; set; }
         public string Title { get; set; }
