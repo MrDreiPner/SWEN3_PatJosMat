@@ -98,7 +98,6 @@ namespace NPaperless.REST
             services.AddScoped<IValidator<DocumentTypeBL>, ValidatorDocumentType>();
 
      
-            services.AddDbContext<NPaperlessDbContext>(options => options.UseNpgsql("Host=npaperless-db;Username=dev;Password=dev;Database=npaperless"));
             services.AddScoped<ITagDALRepository, TagDALRepository>();
 
             services.AddScoped<ITagService, TagService>();

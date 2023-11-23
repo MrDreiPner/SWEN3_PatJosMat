@@ -15,10 +15,9 @@ namespace NPaperless.DataAccess.SQL
 
         private readonly NPaperlessDbContext _db;
         private bool disposed = false;
-        public TagDALRepository(NPaperlessDbContext db)
+        public TagDALRepository()
         {
-            _db = db;
-            _db.Database.EnsureCreated();
+            _db = new NPaperlessDbContext();
         }
 
         public TagDAL GetTag(int tagID)
@@ -37,6 +36,7 @@ namespace NPaperless.DataAccess.SQL
             _db.Tags.Add(tag);
             _logger.Info("Saving changes" + tag);
             Save();
+            Dispose();
             return tag;
         }
 
