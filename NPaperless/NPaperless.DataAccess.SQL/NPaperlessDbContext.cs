@@ -22,8 +22,8 @@ namespace NPaperless.DataAccess.SQL
             var isConfigured = optionsBuilder.IsConfigured;
             if (!isConfigured)
             {
-                optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Username=dev;Password=dev;Database=npaperless");
-                AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+                optionsBuilder.UseNpgsql("Host=npaperless-db;Username=dev;Password=dev;Database=npaperless");
+                //AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
             }
         }
     }
