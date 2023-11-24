@@ -95,16 +95,16 @@ namespace NPaperless.REST
 
             // Add framework services.
             _logger.Info("Configuring framework services.");
-            services.AddSingleton<MinioClient>(provider =>
+            services.AddSingleton<IMinioClient>(provider =>
             {
                 _logger.Info("Doing mario stuff");
 
                 var minioClient = new MinioClient()
-                .WithEndpoint("npaperless-minio")
+                .WithEndpoint("npaperless-minio:9000")
                 .WithCredentials("npaperless", "npaperless")
                 .Build();
 
-                //EnsureBucketExistsAsync(minioClient, "npaperless-bucket").Wait();
+                EnsureBucketExistsAsync(minioClient, "npaperless-bucket").Wait();
 
                 return minioClient;
             });
@@ -216,7 +216,7 @@ namespace NPaperless.REST
                 var bucketExistsArgs = new BucketExistsArgs().WithBucket(bucketName);
                 bool bucketExists = await minioClient.BucketExistsAsync(bucketExistsArgs);
 
-
+                _logger.Info("Where is bucket?");
 
                 // If the bucket doesn't exist, create it
                 if (!bucketExists)

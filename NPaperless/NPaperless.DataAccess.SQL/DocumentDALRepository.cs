@@ -16,7 +16,7 @@ namespace NPaperless.DataAccess.SQL
         }
         public DocumentDAL CreateDocument(DocumentDAL document)
         {
-            _logger.Info("Creating tag" + document);
+            _logger.Info("Creating document" + document);
             _db.Documents.Add(document);
             _logger.Info("Saving changes" + document);
             Save();

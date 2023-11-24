@@ -26,13 +26,16 @@ services:
       - MINIO_ROOT_PASSWORD=npaperless
       - MINIO_ACCESS_KEY=npaperless
       - MINIO_SECRET_KEY=npaperless
-      - MINIO_DEFAULT_BUCKETS=npaperless-docs
+      - MINIO_DEFAULT_BUCKETS=npaperless-bucket
     ports:
       - 9000:9000
       - 9090:9090
     volumes:
       - minio-data:/data
     command: ["server", "/data", "--console-address", ":9090"]
+    networks:
+      - npaperless-network
+    restart: unless-stopped
 
   # REST service
   npaperless-rest:

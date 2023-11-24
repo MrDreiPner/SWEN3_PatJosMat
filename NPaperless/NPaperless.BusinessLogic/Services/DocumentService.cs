@@ -34,6 +34,9 @@ namespace NPaperless.BusinessLogic.Services
 
         public ObjectResult CreateDocument(Document request, List<System.IO.Stream> documentStreams) 
         {
+            _logger.Info(documentStreams);
+
+
             MemoryStream concatenatedStream = new MemoryStream();
 
             foreach (Stream documentStream in documentStreams)
@@ -42,11 +45,16 @@ namespace NPaperless.BusinessLogic.Services
                 documentStream.CopyTo(concatenatedStream);
             }
 
+            //TODO replace this later
+            request.Title = "Document Title";
+
             var putObjectArgs = new PutObjectArgs()
                 .WithBucket("npaperless-bucket")
                 .WithObject(request.Title)
                 .WithStreamData(concatenatedStream)
-                .WithContentType("application/pdf");
+                .WithContentType("application/pdf")
+                .WithObjectSize(-1);
+
 
             _minio.PutObjectAsync(putObjectArgs).Wait();
 
