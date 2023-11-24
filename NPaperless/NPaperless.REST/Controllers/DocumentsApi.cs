@@ -19,15 +19,24 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 using Newtonsoft.Json;
 using NPaperless.REST.Attributes;
 using NPaperless.REST.DTOs;
+using NPaperless.BusinessLogic.Interfaces;
 
 namespace NPaperless.REST.Controllers
-{ 
+{
     /// <summary>
     /// 
     /// </summary>
     [ApiController]
     public class DocumentsApiController : ControllerBase
-    { 
+    {
+        private readonly IDocumentService _service;
+
+        public DocumentsApiController(IDocumentService service)
+        {
+            _service = service ?? throw new ArgumentNullException(nameof(_service));
+        }
+
+
         /// <summary>
         /// 
         /// </summary>
@@ -316,13 +325,17 @@ namespace NPaperless.REST.Controllers
         [Consumes("multipart/form-data")]
         [ValidateModelState]
         [SwaggerOperation("UploadDocument")]
-        public virtual IActionResult UploadDocument([FromForm (Name = "title")]string title, [FromForm (Name = "created")]DateTime? created, [FromForm (Name = "document_type")]int? documentType, [FromForm (Name = "tags")]List<int> tags, [FromForm (Name = "correspondent")]int? correspondent, [FromForm (Name = "document")]List<System.IO.Stream> document)
+        public virtual IActionResult UploadDocument([FromForm (Name = "title")]string title, [FromForm (Name = "created")]DateTime? created, [FromForm (Name = "document_type")]int? documentType, [FromForm (Name = "tags")]List<int> tags, [FromForm (Name = "correspondent")]int? correspondent, [FromForm (Name = "document")] List<System.IO.Stream> document)
         {
+            Document documentDTO = new Document();
+            documentDTO.Title = title;
+            documentDTO.Correspondent = correspondent;
+            documentDTO.DocumentType = documentType;
+            documentDTO.Tags = tags;
 
-            //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(200);
+            var response = _service.CreateDocument(documentDTO, document);
 
-            throw new NotImplementedException();
+            return response;
         }
     }
 }

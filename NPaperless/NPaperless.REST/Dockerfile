@@ -12,18 +12,29 @@ FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 # Copy the code into the container
 WORKDIR /src
 COPY ["NPaperless.REST/NPaperless.REST.csproj", "NPaperless.REST/"]
+COPY ["NPaperless.REST.DTOs/NPaperless.REST.DTOs.csproj", "NPaperless.REST.DTOs/"]
 COPY ["NPaperless.BusinessLogic/NPaperless.BusinessLogic.csproj", "NPaperless.BusinessLogic/"]
 COPY ["NPaperless.BusinessLogic.Entities/NPaperless.BusinessLogic.Entities.csproj", "NPaperless.BusinessLogic.Entities/"]
 COPY ["NPaperless.BusinessLogic.Interfaces/NPaperless.BusinessLogic.Interfaces.csproj", "NPaperless.BusinessLogic.Interfaces/"]
 COPY ["NPaperless.BusinessLogic.Tests/NPaperless.BusinessLogic.Tests.csproj", "NPaperless.BusinessLogic.Tests/"]
+COPY ["NPaperless.DataAccess.Entities/NPaperless.DataAccess.Entities.csproj", "NPaperless.DataAccess.Entities/"]
+COPY ["NPaperless.DataAccess.Interfaces/NPaperless.DataAccess.Interfaces.csproj", "NPaperless.DataAccess.Interfaces/"]
+COPY ["NPaperless.DataAccess.SQL/NPaperless.DataAccess.SQL.csproj", "NPaperless.DataAccess.SQL/"]
+COPY ["NPaperless.DataAccess.Tests/NPaperless.DataAccess.Tests.csproj", "NPaperless.DataAccess.Tests/"]
 
 # NuGet restore
 RUN dotnet restore "NPaperless.REST/NPaperless.REST.csproj"
 COPY ["NPaperless.REST/", "NPaperless.REST/"]
+COPY ["NPaperless.REST.DTOs/", "NPaperless.REST.DTOs/"]
 COPY ["NPaperless.BusinessLogic/", "NPaperless.BusinessLogic/"]
 COPY ["NPaperless.BusinessLogic.Entities/", "NPaperless.BusinessLogic.Entities/"]
 COPY ["NPaperless.BusinessLogic.Interfaces/", "NPaperless.BusinessLogic.Interfaces/"]
 COPY ["NPaperless.BusinessLogic.Tests/", "NPaperless.BusinessLogic.Tests/"]
+COPY ["NPaperless.DataAccess.Entities/", "NPaperless.DataAccess.Entities/"]
+COPY ["NPaperless.DataAccess.Interfaces/", "NPaperless.DataAccess.Interfaces/"]
+COPY ["NPaperless.DataAccess.SQL/", "NPaperless.DataAccess.SQL/"]
+COPY ["NPaperless.DataAccess.Tests/", "NPaperless.DataAccess.Tests/"]
+
 
 # Build the API
 WORKDIR "NPaperless.REST"

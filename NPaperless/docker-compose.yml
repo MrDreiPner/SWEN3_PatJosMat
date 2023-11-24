@@ -4,7 +4,7 @@ services:
   # Database service
   npaperless-db:
     container_name: npaperless-db
-    image: postgres:latest
+    image: postgres:14
     environment:
       POSTGRES_DB: npaperless
       POSTGRES_USER: dev
@@ -13,6 +13,26 @@ services:
       - db-data:/var/lib/postgresql/data
     ports:
       - 5432:5432
+    networks:
+      - npaperless-network
+    restart: unless-stopped
+
+  #MinIO Storage
+  npaperless-minio:
+    container_name: npaperless-minio
+    image: quay.io/minio/minio
+    environment:
+      - MINIO_ROOT_USER=npaperless
+      - MINIO_ROOT_PASSWORD=npaperless
+      - MINIO_ACCESS_KEY=npaperless
+      - MINIO_SECRET_KEY=npaperless
+      - MINIO_DEFAULT_BUCKETS=npaperless-bucket
+    ports:
+      - 9000:9000
+      - 9090:9090
+    volumes:
+      - minio-data:/data
+    command: ["server", "/data", "--console-address", ":9090"]
     networks:
       - npaperless-network
     restart: unless-stopped
@@ -53,3 +73,4 @@ networks:
 
 volumes:
   db-data:
+  minio-data:

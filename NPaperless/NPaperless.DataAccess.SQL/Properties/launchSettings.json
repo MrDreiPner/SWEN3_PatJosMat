@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "NPaperless.DataAccess.SQL": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:56966;http://localhost:56967"
+    }
+  }
+}

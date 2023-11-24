@@ -1,4 +1,4 @@
-namespace NPaperless.Businesslogic.Tests
+namespace NPaperless.DataAccess.Tests
 {
     public class Tests
     {

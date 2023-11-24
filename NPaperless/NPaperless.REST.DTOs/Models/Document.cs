@@ -72,7 +72,7 @@ namespace NPaperless.REST.DTOs
         /// Gets or Sets Created
         /// </summary>
         [DataMember(Name="created", EmitDefaultValue=false)]
-        public DateTime Created { get; set; }
+        public DateTime? Created { get; set; }
 
         /// <summary>
         /// Gets or Sets CreatedDate
