@@ -18,7 +18,7 @@ using System.Runtime.Serialization;
 using Newtonsoft.Json;
 using NPaperless.REST.Converters;
 
-namespace NPaperless.REST.DTOs
+namespace NPaperless.REST
 { 
     /// <summary>
     /// 

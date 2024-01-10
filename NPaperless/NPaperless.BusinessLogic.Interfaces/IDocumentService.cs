@@ -1,15 +1,12 @@
-﻿using NPaperless.REST.DTOs;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using NPaperless.BusinessLogic.Entities;
 
 namespace NPaperless.BusinessLogic.Interfaces {
 
     public interface IDocumentService {
 
-        public ObjectResult CreateDocument(Document request, List<System.IO.Stream> documentStreams);
-        public ObjectResult DeleteDocumentById(long Id);
-        public Document GetDocumentById(long Id);
-        public Document UpdateDocument(UpdateDocumentRequest request);
+        public ObjectResult CreateDocument(DocumentBL document);
+        public DocumentBL GetDocumentById(long Id);
     }
 
 }

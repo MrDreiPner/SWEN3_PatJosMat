@@ -17,8 +17,9 @@ using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
 using NPaperless.REST.Converters;
+using Microsoft.AspNetCore.Http;
 
-namespace NPaperless.REST.DTOs
+namespace NPaperless.REST
 { 
     /// <summary>
     /// 
@@ -110,5 +111,10 @@ namespace NPaperless.REST.DTOs
         [DataMember(Name="archived_file_name", EmitDefaultValue=true)]
         public string ArchivedFileName { get; set; }
 
+        /// <summary>
+        /// Gets or Sets UploadDocument
+        /// </summary>
+        [DataMember(Name="upload_document", EmitDefaultValue=true)]
+        public IFormFile UploadDocument { get; set; }
     }
 }

@@ -26,7 +26,7 @@ using NPaperless.REST.Filters;
 using NPaperless.REST.OpenApi;
 using NPaperless.REST.Formatters;
 using FluentValidation;
-using NPaperless.REST.DTOs;
+using NPaperless.REST;
 using NPaperless.BusinessLogic.Entities;
 using NPaperless.BusinessLogic.Validators;
 using NPaperless.DataAccess.Interfaces;
@@ -76,21 +76,16 @@ namespace NPaperless.REST
             services.AddCors();
 
             _logger.Info("Adding mappers layer services.");
-            services.AddAutoMapper(typeof(DocumentMapper), typeof(TagMapper), typeof(DalMapper));
+            services.AddAutoMapper(typeof(DocumentMapper), typeof(DocumentMapper), typeof(DalMapper));
 
             _logger.Info("Adding validators.");
-            services.AddScoped<IValidator<TagBL>, ValidatorTag>();
-            services.AddScoped<IValidator<CorrespondentBL>, ValidatorCorrespondent>();
             services.AddScoped<IValidator<DocumentBL>, ValidatorDocument>();
 
             _logger.Info("Adding database context.");
             services.AddDbContext<NPaperlessDbContext>(options => options.UseNpgsql("Host=npaperless-db;Username=dev;Password=dev;Database=npaperless"));
 
             _logger.Info("Adding repositories and services.");
-            services.AddScoped<ITagDALRepository, TagDALRepository>();
             services.AddScoped<IDocumentDALRepository, DocumentDALRepository>();
-
-            services.AddScoped<ITagService, TagService>();
             services.AddScoped<IDocumentService, DocumentService>();
 
 

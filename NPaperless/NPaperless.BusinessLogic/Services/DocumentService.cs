@@ -9,10 +9,12 @@ using AutoMapper;
 using FluentValidation;
 using NPaperless.DataAccess.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using NPaperless.REST.DTOs;
 using NPaperless.BusinessLogic.Entities;
 using NPaperless.DataAccess.Entities;
 using Minio;
+using Microsoft.AspNetCore.Http;
+using Minio.Exceptions;
+using System.Net.Mime;
 
 namespace NPaperless.BusinessLogic.Services
 {
@@ -32,36 +34,13 @@ namespace NPaperless.BusinessLogic.Services
             _minio = minio;
         }
 
-        public ObjectResult CreateDocument(Document request, List<System.IO.Stream> documentStreams) 
+        public ObjectResult CreateDocument(DocumentBL document) 
         {
-            _logger.Info(documentStreams);
+            _logger.Info(document);
 
+            SaveFileToMinIO(document.UploadDocument).Wait();
 
-            MemoryStream concatenatedStream = new MemoryStream();
-
-            foreach (Stream documentStream in documentStreams)
-            {
-                documentStream.Position = 0;
-                documentStream.CopyTo(concatenatedStream);
-            }
-
-            //TODO replace this later
-            request.Title = "Document Title";
-
-            var putObjectArgs = new PutObjectArgs()
-                .WithBucket("npaperless-bucket")
-                .WithObject(request.Title)
-                .WithStreamData(concatenatedStream)
-                .WithContentType("application/pdf")
-                .WithObjectSize(-1);
-
-
-            _minio.PutObjectAsync(putObjectArgs).Wait();
-
-
-            DocumentBL documentBL = _mapper.Map<DocumentBL>(request);
-
-            DocumentDAL documentDAL = _mapper.Map<DocumentDAL>(documentBL);
+            DocumentDAL documentDAL = _mapper.Map<DocumentDAL>(document);
 
             var value = _repository.CreateDocument(documentDAL);
 
@@ -72,25 +51,39 @@ namespace NPaperless.BusinessLogic.Services
             return response;
         }
 
-        public ObjectResult DeleteDocumentById(long Id)
+        public DocumentBL GetDocumentById(long Id)
         {
             throw new NotImplementedException();
         }
-        public Document GetDocumentById(long Id)
+
+        protected async Task SaveFileToMinIO(IFormFile file)
         {
-            throw new NotImplementedException();
+            try
+            {
+
+                using (var streamReader = new StreamReader(file.OpenReadStream()))
+                {
+
+                    var memoryStream = new MemoryStream();
+                    await streamReader.BaseStream.CopyToAsync(memoryStream);
+                    memoryStream.Position = 0;
+
+                    var putObjectArgs = new PutObjectArgs()
+                            .WithBucket("npaperless-bucket")
+                            .WithObject(file.Name)
+                            .WithContentType(file.ContentType)
+                            .WithStreamData(memoryStream)
+                            .WithObjectSize(memoryStream.Length);
+
+
+                    await _minio.PutObjectAsync(putObjectArgs).ConfigureAwait(false);
+
+                }
+            }
+            catch (MinioException e)
+            {
+                Console.WriteLine($"Minio Error: {e.Message}");
+            }
         }
-        public Document UpdateDocument(UpdateDocumentRequest request)
-        {
-            DocumentBL documentBL = _mapper.Map<DocumentBL>(request);
-
-            DocumentDAL documentDAL = _mapper.Map<DocumentDAL>(documentBL);
-            //var response = _repository
-
-            //var result = new ObjectResult(response);
-
-            throw new NotImplementedException();
-        }
-
     }
 }

@@ -13,11 +13,7 @@ namespace NPaperless.BusinessLogic.Mappers
     {
         public DalMapper()
         {
-            CreateMap<CorrespondentBL, CorrespondentDAL>().ReverseMap();
-
             CreateMap<DocumentBL, DocumentDAL>().ReverseMap();
-
-            CreateMap<TagBL, TagDAL>().ReverseMap();
         }
     }
 }

@@ -11,9 +11,7 @@ namespace NPaperless.DataAccess.SQL
 {
     public class NPaperlessDbContext : DbContext
     {
-        public DbSet<CorrespondentDAL> Correspondents { get; set; }
         public DbSet<DocumentDAL> Documents { get; set; }
-        public DbSet<TagDAL> Tags { get; set; }
         public NPaperlessDbContext() { }
         public NPaperlessDbContext(DbContextOptions<NPaperlessDbContext> options) : base(options) { }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

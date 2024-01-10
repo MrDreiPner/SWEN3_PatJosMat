@@ -18,7 +18,7 @@ using Swashbuckle.AspNetCore.Annotations;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using Newtonsoft.Json;
 using NPaperless.REST.Attributes;
-using NPaperless.REST.DTOs;
+using NPaperless.REST;
 using NPaperless.BusinessLogic.Entities;
 using AutoMapper;
 using Microsoft.Extensions.Logging;
@@ -33,13 +33,6 @@ namespace NPaperless.REST.Controllers
     [ApiController]
     public class TagsApiController : ControllerBase
     {
-        private readonly ITagService _service;
-
-        public TagsApiController(ITagService service)
-        {
-            _service = service ?? throw new ArgumentNullException(nameof(_service));
-        }
-
         /// <summary>
         /// 
         /// </summary>
@@ -53,9 +46,6 @@ namespace NPaperless.REST.Controllers
         [SwaggerResponse(statusCode: 200, type: typeof(CreateTag200Response), description: "Success")]
         public virtual IActionResult CreateTag([FromBody]CreateTagRequest createTagRequest)
         {
-            var response = _service.CreateTag(createTagRequest);
-
-            return response;
 
             //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(200, default(CreateTag200Response));

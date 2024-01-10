@@ -78,8 +78,8 @@ namespace NPaperless.BusinessLogic.Entities
         public string? ArchivedFileName { get; set; }
 
         /// <summary>
-        /// 
+        /// Gets or Sets UploadDocument
         /// </summary>
-        public IFormFile? UploadDocument { get; set; }
+        public IFormFile UploadDocument { get; set; }
     }
 }

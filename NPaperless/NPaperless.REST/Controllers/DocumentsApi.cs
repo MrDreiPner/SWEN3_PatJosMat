@@ -18,8 +18,10 @@ using Swashbuckle.AspNetCore.Annotations;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using Newtonsoft.Json;
 using NPaperless.REST.Attributes;
-using NPaperless.REST.DTOs;
+using NPaperless.REST;
 using NPaperless.BusinessLogic.Interfaces;
+using AutoMapper;
+using NPaperless.BusinessLogic.Entities;
 
 namespace NPaperless.REST.Controllers
 {
@@ -30,10 +32,12 @@ namespace NPaperless.REST.Controllers
     public class DocumentsApiController : ControllerBase
     {
         private readonly IDocumentService _service;
+        private readonly IMapper _mapper;
 
-        public DocumentsApiController(IDocumentService service)
+        public DocumentsApiController(IDocumentService service, IMapper mapper)
         {
             _service = service ?? throw new ArgumentNullException(nameof(_service));
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(_mapper));
         }
 
 
@@ -318,22 +322,27 @@ namespace NPaperless.REST.Controllers
         /// <param name="documentType"></param>
         /// <param name="tags"></param>
         /// <param name="correspondent"></param>
-        /// <param name="document"></param>
+        /// <param name="uploadDocument"></param>
         /// <response code="200">Success</response>
         [HttpPost]
         [Route("/api/documents/post_document")]
         [Consumes("multipart/form-data")]
         [ValidateModelState]
         [SwaggerOperation("UploadDocument")]
-        public virtual IActionResult UploadDocument([FromForm (Name = "title")]string title, [FromForm (Name = "created")]DateTime? created, [FromForm (Name = "document_type")]int? documentType, [FromForm (Name = "tags")]List<int> tags, [FromForm (Name = "correspondent")]int? correspondent, [FromForm (Name = "document")] List<IFormFile> document)
+        public virtual IActionResult UploadDocument([FromForm (Name = "title")]string title, [FromForm (Name = "created")]DateTime? created, [FromForm (Name = "document_type")]int? documentType, [FromForm (Name = "tags")]List<int> tags, [FromForm (Name = "correspondent")]int? correspondent, [FromForm (Name = "document")] IFormFile uploadDocument)
         {
-            Document documentDTO = new Document();
-            documentDTO.Title = title;
-            documentDTO.Correspondent = correspondent;
-            documentDTO.DocumentType = documentType;
-            documentDTO.Tags = tags;
 
-            var response = _service.CreateDocument(documentDTO, document);
+            Document document = new Document();
+            document.Title = title;
+            document.Correspondent = correspondent;
+            document.DocumentType = documentType;
+            document.Tags = tags;
+            document.UploadDocument = uploadDocument;
+
+            //use mapper here
+            DocumentBL documentBL = _mapper.Map<DocumentBL>(document);
+
+            var response = _service.CreateDocument(documentBL);
 
             return response;
         }

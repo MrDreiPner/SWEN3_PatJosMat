@@ -18,7 +18,7 @@ using Swashbuckle.AspNetCore.Annotations;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using Newtonsoft.Json;
 using NPaperless.REST.Attributes;
-using NPaperless.REST.DTOs;
+using NPaperless.REST;
 
 namespace NPaperless.REST.Controllers
 { 
