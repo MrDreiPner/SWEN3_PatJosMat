@@ -325,7 +325,7 @@ namespace NPaperless.REST.Controllers
         [Consumes("multipart/form-data")]
         [ValidateModelState]
         [SwaggerOperation("UploadDocument")]
-        public virtual IActionResult UploadDocument([FromForm (Name = "title")]string title, [FromForm (Name = "created")]DateTime? created, [FromForm (Name = "document_type")]int? documentType, [FromForm (Name = "tags")]List<int> tags, [FromForm (Name = "correspondent")]int? correspondent, [FromForm (Name = "document")] List<System.IO.Stream> document)
+        public virtual IActionResult UploadDocument([FromForm (Name = "title")]string title, [FromForm (Name = "created")]DateTime? created, [FromForm (Name = "document_type")]int? documentType, [FromForm (Name = "tags")]List<int> tags, [FromForm (Name = "correspondent")]int? correspondent, [FromForm (Name = "document")] List<IFormFile> document)
         {
             Document documentDTO = new Document();
             documentDTO.Title = title;

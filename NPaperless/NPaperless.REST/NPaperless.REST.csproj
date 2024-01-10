@@ -28,6 +28,5 @@
   <ItemGroup>
     <ProjectReference Include="..\NPaperless.BusinessLogic\NPaperless.BusinessLogic.csproj" />
     <ProjectReference Include="..\NPaperless.DataAccess.SQL\NPaperless.DataAccess.SQL.csproj" />
-	<ProjectReference Include="..\NPaperless.REST.DTOs\NPaperless.REST.DTOs.csproj" />
   </ItemGroup>
 </Project>

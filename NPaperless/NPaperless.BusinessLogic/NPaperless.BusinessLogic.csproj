@@ -19,7 +19,6 @@
     <ProjectReference Include="..\NPaperless.BusinessLogic.Interfaces\NPaperless.BusinessLogic.Interfaces.csproj" />
     <ProjectReference Include="..\NPaperless.DataAccess.Entities\NPaperless.DataAccess.Entities.csproj" />
     <ProjectReference Include="..\NPaperless.DataAccess.Interfaces\NPaperless.DataAccess.Interfaces.csproj" />
-    <ProjectReference Include="..\NPaperless.REST.DTOs\NPaperless.REST.DTOs.csproj" />
   </ItemGroup>
 
 </Project>

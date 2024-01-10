@@ -39,6 +39,7 @@ using NPaperless.BusinessLogic;
 using Microsoft.EntityFrameworkCore;
 using Minio;
 using System.Threading.Tasks;
+using NPaperless.BusinessLogic.Mappers;
 
 namespace NPaperless.REST
 {
@@ -74,8 +75,8 @@ namespace NPaperless.REST
             _logger.Info("Adding CORS services.");
             services.AddCors();
 
-            _logger.Info("Adding business layer services.");
-            services.AddBusinessLayer();
+            _logger.Info("Adding mappers layer services.");
+            services.AddAutoMapper(typeof(DocumentMapper), typeof(TagMapper), typeof(DalMapper));
 
             _logger.Info("Adding validators.");
             services.AddScoped<IValidator<TagBL>, ValidatorTag>();

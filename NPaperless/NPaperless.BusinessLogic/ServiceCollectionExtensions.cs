@@ -12,7 +12,7 @@ namespace NPaperless.BusinessLogic
     {
         public static void AddBusinessLayer(this IServiceCollection services)
         {
-            services.AddAutoMapper(Assembly.GetExecutingAssembly());
+
         }
     }
 }

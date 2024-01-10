@@ -9,7 +9,7 @@ using NPaperless.DataAccess.Entities;
 
 namespace NPaperless.BusinessLogic.Mappers
 {
-    internal class DalMapper : Profile
+    public class DalMapper : Profile
     {
         public DalMapper()
         {
