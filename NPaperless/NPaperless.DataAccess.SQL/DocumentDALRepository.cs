@@ -14,14 +14,16 @@ namespace NPaperless.DataAccess.SQL
         {
             _db = new NPaperlessDbContext();
         }
-        public DocumentDAL CreateDocument(DocumentDAL document)
+        public int CreateDocument(DocumentDAL document)
         {
-            _logger.Info("Creating document" + document);
+            _logger.Info("Creating document " + document.OriginalFileName);
             _db.Documents.Add(document);
-            _logger.Info("Saving changes" + document);
+            _logger.Info("Saving changes " + document.Id);
             Save();
+            _logger.Info("Saved");
             Dispose();
-            return document;
+            _logger.Info("Disposed, new document ID: " + document.Id);
+            return document.Id;
         }
 
         public void DeleteDocument(int documentID)

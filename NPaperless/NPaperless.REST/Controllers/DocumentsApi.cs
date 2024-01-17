@@ -344,7 +344,11 @@ namespace NPaperless.REST.Controllers
 
             var response = _service.CreateDocument(documentBL);
 
-            return (IActionResult)response;
+            var newResponse = new ObjectResult(response);
+
+            newResponse.StatusCode = 200;
+
+            return newResponse;
         }
     }
 }

@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.Http;
 using Minio.Exceptions;
 using System.Net.Mime;
 using System.Net;
+using NPaperless.BusinessLogic.RabbitMQ;
 
 namespace NPaperless.BusinessLogic.Services
 {
@@ -26,27 +27,32 @@ namespace NPaperless.BusinessLogic.Services
         private readonly IValidator _validator;
         private readonly IDocumentDALRepository _repository;
         private readonly IMinioClient _minio;
+        /*private readonly IMessageSender _messageSender;*/
 
-        public DocumentService(IMapper mapper, IValidator<DocumentBL> validator, IDocumentDALRepository repository, IMinioClient minio)
+        public DocumentService(IMapper mapper, IValidator<DocumentBL> validator, IDocumentDALRepository repository, IMinioClient minio/*, IMessageSender messageSender*/)
         {
             _mapper = mapper;
             _validator = validator;
             _repository = repository;
             _minio = minio;
+            /*_messageSender = messageSender;*/
         }
 
-        public async Task<HttpStatusCode> CreateDocument(DocumentBL document) 
+        public HttpStatusCode CreateDocument(DocumentBL document) 
         {
             _logger.Info("creating document");
 
             //TODO validate file
 
+            //TODO fix database
             DocumentDAL documentDAL = _mapper.Map<DocumentDAL>(document);
             int fileId = _repository.CreateDocument(documentDAL);
 
-            string uniqueFileName = await SaveFileToMinIO(document.UploadDocument);
+            _logger.Info("new File Id" + fileId);
 
-            //TODO send message to rabbitmq for OcrWorker (database id, minio id)
+            SaveFileToMinIO(document.UploadDocument).Wait();
+
+            //_messageSender.SendMessage(fileId.ToString());
 
             //TODO exception handling
 
@@ -60,7 +66,7 @@ namespace NPaperless.BusinessLogic.Services
             throw new NotImplementedException();
         }
 
-        protected async Task<string> SaveFileToMinIO(IFormFile file)
+        protected async Task SaveFileToMinIO(IFormFile file)
         {
             string uniqueFileName = Guid.NewGuid().ToString() + "_" + file.FileName;
 
@@ -90,7 +96,6 @@ namespace NPaperless.BusinessLogic.Services
                 Console.WriteLine($"Minio Error: {e.Message}");
             }
 
-            return uniqueFileName;
         }
     }
 }

@@ -40,6 +40,7 @@ using Microsoft.EntityFrameworkCore;
 using Minio;
 using System.Threading.Tasks;
 using NPaperless.BusinessLogic.Mappers;
+using NPaperless.BusinessLogic.RabbitMQ;
 
 namespace NPaperless.REST
 {
@@ -152,6 +153,11 @@ namespace NPaperless.REST
             _logger.Info("Adding Newtonsoft.Json support for Swagger.");
             services
                     .AddSwaggerGenNewtonsoftSupport();
+
+
+            _logger.Info("Adding RabbitMQ to Services");
+            //services.AddTransient<MessageSender>();
+            //services.AddTransient<MessageReceiver>();
 
             _logger.Info("END: Configure Services.");
         }

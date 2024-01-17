@@ -37,6 +37,20 @@ services:
       - npaperless-network
     restart: unless-stopped
 
+  # RabbitMQ service
+  npaperless-rabbitmq:
+    container_name: npaperless-rabbitmq
+    image: rabbitmq:3-management
+    ports:
+      - 15672:15672
+      - 5672:5672
+    networks:
+      - npaperless-network
+    restart: unless-stopped
+    environment:
+      RABBITMQ_DEFAULT_USER: npaperless
+      RABBITMQ_DEFAULT_PASS: npaperless
+
   # REST service
   npaperless-rest:
     container_name: npaperless-rest
@@ -50,6 +64,8 @@ services:
     restart: unless-stopped
     depends_on:
       - npaperless-db
+      - npaperless-minio
+      - npaperless-rabbitmq
 
   # WebUI service
   npaperless-webui:
