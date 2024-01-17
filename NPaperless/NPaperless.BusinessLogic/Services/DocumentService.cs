@@ -15,6 +15,7 @@ using Minio;
 using Microsoft.AspNetCore.Http;
 using Minio.Exceptions;
 using System.Net.Mime;
+using System.Net;
 
 namespace NPaperless.BusinessLogic.Services
 {
@@ -34,19 +35,22 @@ namespace NPaperless.BusinessLogic.Services
             _minio = minio;
         }
 
-        public ObjectResult CreateDocument(DocumentBL document) 
+        public async Task<HttpStatusCode> CreateDocument(DocumentBL document) 
         {
-            _logger.Info(document);
+            _logger.Info("creating document");
 
-            SaveFileToMinIO(document.UploadDocument).Wait();
+            //TODO validate file
 
             DocumentDAL documentDAL = _mapper.Map<DocumentDAL>(document);
+            int fileId = _repository.CreateDocument(documentDAL);
 
-            var value = _repository.CreateDocument(documentDAL);
+            string uniqueFileName = await SaveFileToMinIO(document.UploadDocument);
 
-            var response = new ObjectResult(value);
+            //TODO send message to rabbitmq for OcrWorker (database id, minio id)
 
-            response.StatusCode = 200;
+            //TODO exception handling
+
+            var response = HttpStatusCode.OK;
 
             return response;
         }
@@ -56,21 +60,22 @@ namespace NPaperless.BusinessLogic.Services
             throw new NotImplementedException();
         }
 
-        protected async Task SaveFileToMinIO(IFormFile file)
+        protected async Task<string> SaveFileToMinIO(IFormFile file)
         {
+            string uniqueFileName = Guid.NewGuid().ToString() + "_" + file.FileName;
+
             try
             {
 
                 using (var streamReader = new StreamReader(file.OpenReadStream()))
                 {
-
                     var memoryStream = new MemoryStream();
                     await streamReader.BaseStream.CopyToAsync(memoryStream);
                     memoryStream.Position = 0;
 
                     var putObjectArgs = new PutObjectArgs()
                             .WithBucket("npaperless-bucket")
-                            .WithObject(file.Name)
+                            .WithObject(uniqueFileName)
                             .WithContentType(file.ContentType)
                             .WithStreamData(memoryStream)
                             .WithObjectSize(memoryStream.Length);
@@ -84,6 +89,8 @@ namespace NPaperless.BusinessLogic.Services
             {
                 Console.WriteLine($"Minio Error: {e.Message}");
             }
+
+            return uniqueFileName;
         }
     }
 }

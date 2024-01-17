@@ -11,7 +11,7 @@ namespace NPaperless.DataAccess.Interfaces
     {
         public DocumentDAL GetDocument(int documentID);
         public IEnumerable<DocumentDAL> GetAllDocuments();
-        public DocumentDAL CreateDocument(DocumentDAL document);
+        public int CreateDocument(DocumentDAL document);
         public void UpdateDocument(DocumentDAL document);
         public void DeleteDocument(int documentID);
         public void Save();

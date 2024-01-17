@@ -344,7 +344,7 @@ namespace NPaperless.REST.Controllers
 
             var response = _service.CreateDocument(documentBL);
 
-            return response;
+            return (IActionResult)response;
         }
     }
 }

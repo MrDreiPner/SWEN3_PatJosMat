@@ -152,6 +152,7 @@ namespace NPaperless.REST
             _logger.Info("Adding Newtonsoft.Json support for Swagger.");
             services
                     .AddSwaggerGenNewtonsoftSupport();
+
             _logger.Info("END: Configure Services.");
         }
 
