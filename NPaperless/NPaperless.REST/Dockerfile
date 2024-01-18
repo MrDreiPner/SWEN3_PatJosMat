@@ -46,4 +46,12 @@ RUN dotnet publish "NPaperless.REST.csproj" -c Release -o /app/publish
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
+
+# Copy TesseractOCR data into the container
+COPY ["NPaperless.BusinessLogic/TesseractOCR/tessdata/deu.traineddata", "tessdata/"]
+COPY ["NPaperless.BusinessLogic/TesseractOCR/tessdata/eng.traineddata", "tessdata/"]
+
+# Set entrypoint
 ENTRYPOINT ["dotnet", "NPaperless.REST.dll"]
+
+

@@ -41,6 +41,7 @@ using Minio;
 using System.Threading.Tasks;
 using NPaperless.BusinessLogic.Mappers;
 using NPaperless.BusinessLogic.RabbitMQ;
+using NPaperless.BusinessLogic.TesseractOCR;
 
 namespace NPaperless.REST
 {
@@ -158,6 +159,11 @@ namespace NPaperless.REST
             _logger.Info("Adding RabbitMQ to Services");
             services.AddTransient<IMessageSender, MessageSender>();
             services.AddTransient<IMessageReceiver, MessageReceiver>();
+
+            _logger.Info("Adding TesseractOCR to Services");
+            services.AddSingleton<IOcrClient, OcrClient>();
+            services.AddHostedService<OcrBackgroundService>();
+
 
             _logger.Info("END: Configure Services.");
         }

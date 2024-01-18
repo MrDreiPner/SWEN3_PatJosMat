@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
+using NPaperless.BusinessLogic.Interfaces;
+using NPaperless.BusinessLogic.Services;
 
 namespace NPaperless.REST
 {
