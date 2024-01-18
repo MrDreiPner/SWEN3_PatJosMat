@@ -2,10 +2,11 @@
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using System.Text;
+using NPaperless.BusinessLogic.Interfaces;
 
 namespace NPaperless.BusinessLogic.RabbitMQ
 {
-    public class MessageReceiver
+    public class MessageReceiver : IMessageReceiver
     {
         private readonly IConfiguration _configuration;
 

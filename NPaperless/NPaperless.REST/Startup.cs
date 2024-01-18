@@ -152,12 +152,12 @@ namespace NPaperless.REST
                 });
             _logger.Info("Adding Newtonsoft.Json support for Swagger.");
             services
-                    .AddSwaggerGenNewtonsoftSupport();
+                .AddSwaggerGenNewtonsoftSupport();
 
 
             _logger.Info("Adding RabbitMQ to Services");
-            //services.AddTransient<MessageSender>();
-            //services.AddTransient<MessageReceiver>();
+            services.AddTransient<IMessageSender, MessageSender>();
+            services.AddTransient<IMessageReceiver, MessageReceiver>();
 
             _logger.Info("END: Configure Services.");
         }

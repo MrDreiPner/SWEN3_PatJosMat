@@ -41,6 +41,7 @@ services:
   npaperless-rabbitmq:
     container_name: npaperless-rabbitmq
     image: rabbitmq:3-management
+    hostname: rabbitmq
     ports:
       - 15672:15672
       - 5672:5672
@@ -50,6 +51,8 @@ services:
     environment:
       RABBITMQ_DEFAULT_USER: npaperless
       RABBITMQ_DEFAULT_PASS: npaperless
+    volumes:
+      - rabbitmq-data:/var/lib/rabbitmq
 
   # REST service
   npaperless-rest:
@@ -90,3 +93,4 @@ networks:
 volumes:
   db-data:
   minio-data:
+  rabbitmq-data:

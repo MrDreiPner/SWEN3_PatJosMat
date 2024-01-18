@@ -16,13 +16,10 @@ namespace NPaperless.DataAccess.SQL
         }
         public int CreateDocument(DocumentDAL document)
         {
-            _logger.Info("Creating document " + document.OriginalFileName);
             _db.Documents.Add(document);
-            _logger.Info("Saving changes " + document.Id);
             Save();
-            _logger.Info("Saved");
             Dispose();
-            _logger.Info("Disposed, new document ID: " + document.Id);
+            _logger.Info("Added document with Id:" + document.OriginalFileName + " to Database");
             return document.Id;
         }
 

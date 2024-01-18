@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace NPaperless.BusinessLogic.Interfaces
 {
-    internal interface IMessageReceiver
+    public interface IMessageReceiver
     {
         public void Receive();
     }

@@ -1,10 +1,14 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using log4net;
+using log4net.Core;
+using Microsoft.Extensions.Configuration;
+using NPaperless.BusinessLogic.Interfaces;
+using NPaperless.BusinessLogic.Services;
 using RabbitMQ.Client;
 using System.Text;
 
 namespace NPaperless.BusinessLogic.RabbitMQ
 {
-    public class MessageSender
+    public class MessageSender : IMessageSender
     {
         private readonly IConfiguration _configuration;
         public MessageSender(IConfiguration configuration)

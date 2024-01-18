@@ -27,15 +27,15 @@ namespace NPaperless.BusinessLogic.Services
         private readonly IValidator _validator;
         private readonly IDocumentDALRepository _repository;
         private readonly IMinioClient _minio;
-        /*private readonly IMessageSender _messageSender;*/
+        private readonly IMessageSender _messageSender;
 
-        public DocumentService(IMapper mapper, IValidator<DocumentBL> validator, IDocumentDALRepository repository, IMinioClient minio/*, IMessageSender messageSender*/)
+        public DocumentService(IMapper mapper, IValidator<DocumentBL> validator, IDocumentDALRepository repository, IMinioClient minio, IMessageSender messageSender)
         {
             _mapper = mapper;
             _validator = validator;
             _repository = repository;
             _minio = minio;
-            /*_messageSender = messageSender;*/
+            _messageSender = messageSender;
         }
 
         public HttpStatusCode CreateDocument(DocumentBL document) 
@@ -44,7 +44,6 @@ namespace NPaperless.BusinessLogic.Services
 
             //TODO validate file
 
-            //TODO fix database
             DocumentDAL documentDAL = _mapper.Map<DocumentDAL>(document);
             int fileId = _repository.CreateDocument(documentDAL);
 
@@ -52,7 +51,7 @@ namespace NPaperless.BusinessLogic.Services
 
             SaveFileToMinIO(document.UploadDocument).Wait();
 
-            //_messageSender.SendMessage(fileId.ToString());
+            _messageSender.SendMessage(fileId.ToString());
 
             //TODO exception handling
 
@@ -95,7 +94,6 @@ namespace NPaperless.BusinessLogic.Services
             {
                 Console.WriteLine($"Minio Error: {e.Message}");
             }
-
         }
     }
 }
