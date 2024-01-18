@@ -6,7 +6,7 @@ namespace NPaperless.BusinessLogic.Interfaces {
 
     public interface IDocumentService {
 
-        public HttpStatusCode CreateDocument(DocumentBL document);
+        public Task<IActionResult> CreateDocument(DocumentBL document);
         public DocumentBL GetDocumentById(long Id);
     }
 

@@ -80,7 +80,7 @@ namespace NPaperless.REST
             services.AddAutoMapper(typeof(DocumentMapper), typeof(DocumentMapper), typeof(DalMapper));
 
             _logger.Info("Adding validators.");
-            services.AddScoped<IValidator<DocumentBL>, ValidatorDocument>();
+            services.AddScoped<IValidator<DocumentBL>, DocumentValidator>();
 
             _logger.Info("Adding database context.");
             services.AddDbContext<NPaperlessDbContext>(options => options.UseNpgsql("Host=npaperless-db;Username=dev;Password=dev;Database=npaperless"));

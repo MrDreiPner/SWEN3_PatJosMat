@@ -8,13 +8,13 @@ using System.Threading.Tasks;
 
 namespace NPaperless.BusinessLogic.Validators
 {
-    public class ValidatorDocument : AbstractValidator<DocumentBL>
+    public class DocumentValidator : AbstractValidator<DocumentBL>
     {
-        public ValidatorDocument()
+        public DocumentValidator()
         {
             RuleSet("RequiredData", () =>
             {
-                RuleFor(DocumentType => DocumentType.Title).NotEmpty().NotNull().WithMessage("Title required");
+                RuleFor(document => document.Title).NotEmpty().WithMessage("Title required");
             });
         }
     }

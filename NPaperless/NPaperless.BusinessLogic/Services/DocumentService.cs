@@ -17,6 +17,7 @@ using Minio.Exceptions;
 using System.Net.Mime;
 using System.Net;
 using NPaperless.BusinessLogic.RabbitMQ;
+using log4net.Repository.Hierarchy;
 
 namespace NPaperless.BusinessLogic.Services
 {
@@ -38,26 +39,37 @@ namespace NPaperless.BusinessLogic.Services
             _messageSender = messageSender;
         }
 
-        public HttpStatusCode CreateDocument(DocumentBL document) 
+        public async Task<IActionResult> CreateDocument(DocumentBL document) 
         {
             _logger.Info("creating document");
+            try
+            {
+                var validationContext = new ValidationContext<DocumentBL>(document);
+                var validationResult = _validator.Validate(validationContext);
+                if (!validationResult.IsValid)
+                {
+                    return new BadRequestResult();
+                }
 
-            //TODO validate file
+                DocumentDAL documentDAL = _mapper.Map<DocumentDAL>(document);
+                int fileId = _repository.CreateDocument(documentDAL);
 
-            DocumentDAL documentDAL = _mapper.Map<DocumentDAL>(document);
-            int fileId = _repository.CreateDocument(documentDAL);
+                string fileName = await SaveFileToMinIO(document.UploadDocument);
 
-            _logger.Info("new File Id" + fileId);
+                _messageSender.SendMessage(fileId.ToString() + ", " + fileName);
 
-            SaveFileToMinIO(document.UploadDocument).Wait();
+                _logger.Info("fileId:" + fileId.ToString() + ", fileName:" + fileName + " stored and queued");
 
-            _messageSender.SendMessage(fileId.ToString());
+                return new OkResult();
+            }
 
-            //TODO exception handling
+            catch
+            (Exception e)
+            {
+                _logger.Error($"Upload Document Error: {e.Message}");
+                return new StatusCodeResult(500);
+            }
 
-            var response = HttpStatusCode.OK;
-
-            return response;
         }
 
         public DocumentBL GetDocumentById(long Id)
@@ -65,7 +77,7 @@ namespace NPaperless.BusinessLogic.Services
             throw new NotImplementedException();
         }
 
-        protected async Task SaveFileToMinIO(IFormFile file)
+        protected async Task<string> SaveFileToMinIO(IFormFile file)
         {
             string uniqueFileName = Guid.NewGuid().ToString() + "_" + file.FileName;
 
@@ -92,8 +104,9 @@ namespace NPaperless.BusinessLogic.Services
             }
             catch (MinioException e)
             {
-                Console.WriteLine($"Minio Error: {e.Message}");
+                _logger.Error($"Minio Error: {e.Message}");
             }
+            return uniqueFileName;
         }
     }
 }

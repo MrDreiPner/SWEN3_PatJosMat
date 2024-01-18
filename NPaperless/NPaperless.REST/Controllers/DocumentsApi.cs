@@ -22,6 +22,7 @@ using NPaperless.REST;
 using NPaperless.BusinessLogic.Interfaces;
 using AutoMapper;
 using NPaperless.BusinessLogic.Entities;
+using System.Threading.Tasks;
 
 namespace NPaperless.REST.Controllers
 {
@@ -329,7 +330,7 @@ namespace NPaperless.REST.Controllers
         [Consumes("multipart/form-data")]
         [ValidateModelState]
         [SwaggerOperation("UploadDocument")]
-        public virtual IActionResult UploadDocument([FromForm (Name = "title")]string title, [FromForm (Name = "created")]DateTime? created, [FromForm (Name = "document_type")]int? documentType, [FromForm (Name = "tags")]List<int> tags, [FromForm (Name = "correspondent")]int? correspondent, [FromForm (Name = "document")] IFormFile uploadDocument)
+        public virtual async Task<IActionResult> UploadDocument([FromForm (Name = "title")]string title, [FromForm (Name = "created")]DateTime? created, [FromForm (Name = "document_type")]int? documentType, [FromForm (Name = "tags")]List<int> tags, [FromForm (Name = "correspondent")]int? correspondent, [FromForm (Name = "document")] IFormFile uploadDocument)
         {
 
             Document document = new Document();
@@ -342,13 +343,9 @@ namespace NPaperless.REST.Controllers
             //use mapper here
             DocumentBL documentBL = _mapper.Map<DocumentBL>(document);
 
-            var response = _service.CreateDocument(documentBL);
+            var response = await _service.CreateDocument(documentBL);
 
-            var newResponse = new ObjectResult(response);
-
-            newResponse.StatusCode = 200;
-
-            return newResponse;
+            return response;
         }
     }
 }
