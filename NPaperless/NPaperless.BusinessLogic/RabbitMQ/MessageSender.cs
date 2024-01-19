@@ -1,10 +1,11 @@
-﻿using log4net;
-using log4net.Core;
-using Microsoft.Extensions.Configuration;
+﻿using EasyNetQ;
+using EasyNetQ.Management.Client;
+using EasyNetQ.Management.Client.Model;
+using Microsoft.Extensions.Configuration; 
+
+
 using NPaperless.BusinessLogic.Interfaces;
-using NPaperless.BusinessLogic.Services;
-using RabbitMQ.Client;
-using System.Text;
+
 
 namespace NPaperless.BusinessLogic.RabbitMQ
 {
@@ -17,30 +18,17 @@ namespace NPaperless.BusinessLogic.RabbitMQ
         }
         public void SendMessage(string message)
         {
-            var factory = new ConnectionFactory()
+            string host = _configuration["RabbitMQ:Host"];
+            string userName = _configuration["RabbitMQ:UserName"];
+            string password = _configuration["RabbitMQ:Password"];
+            string queueName = _configuration["RabbitMQ:Queue"];
+
+            string connectionString = $"host={host};username={userName};password={password}";
+
+            using (var bus = RabbitHutch.CreateBus(connectionString))
             {
-                HostName = _configuration["RabbitMQ:HostName"],
-                Port = int.Parse(_configuration["RabbitMQ:Port"]),
-                UserName = _configuration["RabbitMQ:UserName"],
-                Password = _configuration["RabbitMQ:Password"]
-            };
-
-            using (var connection = factory.CreateConnection())
-            using (var channel = connection.CreateModel())
-            {
-                channel.QueueDeclare(queue: "npaperless-queue",
-                                     durable: false,
-                                     exclusive: false,
-                                     autoDelete: false,
-                                     arguments: null);
-
-                var body = Encoding.UTF8.GetBytes(message);
-
-                channel.BasicPublish(exchange: "",
-                                     routingKey: "npaperless-queue",
-                                     basicProperties: null,
-                                     body: body);
-            }
+                bus.SendReceive.Send(queueName, message);
+            } 
         }
     }
 }

@@ -8,6 +8,8 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
+    <PackageReference Include="EasyNetQ" Version="7.8.0" />
+    <PackageReference Include="EasyNetQ.Management.Client" Version="2.0.0" />
     <PackageReference Include="FluentValidation" Version="11.8.1" />
     <PackageReference Include="log4net" Version="2.0.15" />
     <PackageReference Include="Magick.NET-Q16-AnyCPU" Version="13.5.0" />

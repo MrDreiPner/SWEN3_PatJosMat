@@ -41,21 +41,11 @@ namespace NPaperless.BusinessLogic.Services
 
         public async Task StartAsync(CancellationToken cancellationToken)
         {
-            LoopDiLoop();
+            _messageReceiver.Receive();
         }
 
         public async Task StopAsync(CancellationToken cancellationToken)
         {
-        }
-
-        private async Task LoopDiLoop()
-        {
-            _logger.Info("starting ocr background service");
-            while (true)
-            {
-                _messageReceiver.Receive();
-                await Task.Delay(1000);
-            }
         }
 
         private async Task HandleOcrJob(string message)

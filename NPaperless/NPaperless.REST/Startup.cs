@@ -157,8 +157,8 @@ namespace NPaperless.REST
 
 
             _logger.Info("Adding RabbitMQ to Services");
-            services.AddTransient<IMessageSender, MessageSender>();
-            services.AddTransient<IMessageReceiver, MessageReceiver>();
+            services.AddSingleton<IMessageSender, MessageSender>();
+            services.AddSingleton<IMessageReceiver, MessageReceiver>();
 
             _logger.Info("Adding TesseractOCR to Services");
             services.AddSingleton<IOcrClient, OcrClient>();
