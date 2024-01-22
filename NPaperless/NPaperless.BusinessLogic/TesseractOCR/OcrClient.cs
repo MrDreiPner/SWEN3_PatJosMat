@@ -21,7 +21,6 @@ namespace NPaperless.BusinessLogic.TesseractOCR
             string language = _configuration["TesseractOCR:Language"];
 
             var stringBuilder = new StringBuilder();
-
             using (var magickImages = new MagickImageCollection())
             {
                 magickImages.Read(pdfStream);

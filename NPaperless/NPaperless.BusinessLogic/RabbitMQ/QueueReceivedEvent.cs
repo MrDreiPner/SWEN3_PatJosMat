@@ -1,4 +1,6 @@
-﻿using NPaperless.BusinessLogic.Interfaces;
+﻿using log4net;
+using NPaperless.BusinessLogic.Interfaces;
+using NPaperless.BusinessLogic.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;

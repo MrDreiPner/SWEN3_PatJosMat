@@ -18,6 +18,8 @@ using System.Net.Mime;
 using System.Net;
 using NPaperless.BusinessLogic.RabbitMQ;
 using log4net.Repository.Hierarchy;
+using System.IO.Enumeration;
+using System.Reflection.Metadata;
 
 namespace NPaperless.BusinessLogic.Services
 {
@@ -29,6 +31,7 @@ namespace NPaperless.BusinessLogic.Services
         private readonly IDocumentDALRepository _repository;
         private readonly IMinioClient _minio;
         private readonly IMessageSender _messageSender;
+        private readonly IOcrClient _crClient;
 
         public DocumentService(IMapper mapper, IValidator<DocumentBL> validator, IDocumentDALRepository repository, IMinioClient minio, IMessageSender messageSender)
         {
@@ -53,12 +56,13 @@ namespace NPaperless.BusinessLogic.Services
 
                 DocumentDAL documentDAL = _mapper.Map<DocumentDAL>(document);
                 int fileId = _repository.CreateDocument(documentDAL);
+                string uniqueFileName = generateUniqueFileName(document.UploadDocument.FileName);
+                await SaveFileToMinIO(document.UploadDocument, uniqueFileName);
+                _logger.Info("fileId:" + fileId.ToString() + ", fileName:" + uniqueFileName + " stored");
+                _messageSender.SendMessage(fileId.ToString() + ", " + uniqueFileName);
+                _logger.Info("fileId:" + fileId.ToString() + ", fileName:" + uniqueFileName + " queued");
 
-                string fileName = await SaveFileToMinIO(document.UploadDocument);
 
-                _messageSender.SendMessage(fileId.ToString() + ", " + fileName);
-
-                _logger.Info("fileId:" + fileId.ToString() + ", fileName:" + fileName + " stored and queued");
 
                 return new OkResult();
             }
@@ -77,10 +81,13 @@ namespace NPaperless.BusinessLogic.Services
             throw new NotImplementedException();
         }
 
-        protected async Task<string> SaveFileToMinIO(IFormFile file)
+        protected string generateUniqueFileName(string passedFileName)
         {
-            string uniqueFileName = Guid.NewGuid().ToString() + "_" + file.FileName;
+            return Guid.NewGuid().ToString() + "_" + passedFileName;
+        }
 
+        protected async Task SaveFileToMinIO(IFormFile file, string uniqueFileName)
+        {
             try
             {
 
@@ -106,7 +113,6 @@ namespace NPaperless.BusinessLogic.Services
             {
                 _logger.Error($"Minio Error: {e.Message}");
             }
-            return uniqueFileName;
         }
     }
 }

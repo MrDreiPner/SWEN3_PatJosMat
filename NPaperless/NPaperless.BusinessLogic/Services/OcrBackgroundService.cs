@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
+using EasyNetQ.Consumer;
 using FluentValidation;
 using log4net;
 using Microsoft.Extensions.Hosting;
 using Minio;
+using Minio.Exceptions;
 using NPaperless.BusinessLogic.Entities;
 using NPaperless.BusinessLogic.Interfaces;
 using NPaperless.BusinessLogic.RabbitMQ;
@@ -50,7 +52,40 @@ namespace NPaperless.BusinessLogic.Services
 
         private async Task HandleOcrJob(string message)
         {
-            _logger.Info(message);
+            _logger.Info("We received the message -> "+message);
+            int indexOfId = message.IndexOf(',');
+            string fileName = message.Substring(indexOfId+2);
+            Stream pdf = await GetFileFromMinIO(fileName);
+            _logger.Info("We tried getting the pdf >" +fileName+" < from MinIO, lets see if its here.");
+            if (pdf != null)
+            {
+                _logger.Info("We got something!");
+                _ocrClient.OcrPdf(pdf);
+            }
+            else
+            {
+                _logger.Info("We got NULL!");
+            }
+        }
+
+        protected async Task<Stream> GetFileFromMinIO(string fileName)
+        {
+            Stream? pdf = null;
+            try
+            {
+                var getObjectArgs = new GetObjectArgs()
+                        .WithBucket("npaperless-bucket")
+                        .WithObject(fileName)
+                        .WithCallbackStream((stream) =>
+                        {
+                            stream.CopyTo(pdf);
+                        });
+            }
+            catch (MinioException e)
+            {
+                _logger.Error($"Minio Error: {e.Message}");
+            }
+            return pdf;
         }
     }
 }
