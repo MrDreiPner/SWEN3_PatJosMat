@@ -55,31 +55,47 @@ namespace NPaperless.BusinessLogic.Services
             _logger.Info("We received the message -> "+message);
             int indexOfId = message.IndexOf(',');
             string fileName = message.Substring(indexOfId+2);
-            Stream pdf = await GetFileFromMinIO(fileName);
+            var pdf = await GetFileFromMinIO(fileName);
             _logger.Info("We tried getting the pdf >" +fileName+" < from MinIO, lets see if its here.");
             if (pdf != null)
             {
-                _logger.Info("We got something!");
-                _ocrClient.OcrPdf(pdf);
+                _logger.Info("We got something! ");
+                string yesyes = _ocrClient.OcrPdf(pdf);
+                _logger.Info("OCR RESULT: "+yesyes);
             }
             else
             {
-                _logger.Info("We got NULL!");
+                _logger.Info("We got NULL-thing!");
             }
         }
 
         protected async Task<Stream> GetFileFromMinIO(string fileName)
         {
-            Stream? pdf = null;
+            Stream? pdf = new MemoryStream();
             try
             {
+                StatObjectArgs statObjectArgs = new StatObjectArgs()
+                                    .WithBucket("npaperless-bucket")
+                                    .WithObject(fileName);
+                var isHere = await _minio.StatObjectAsync(statObjectArgs);
+
                 var getObjectArgs = new GetObjectArgs()
                         .WithBucket("npaperless-bucket")
                         .WithObject(fileName)
                         .WithCallbackStream((stream) =>
                         {
-                            stream.CopyTo(pdf);
+                            stream.CopyTo(pdf); 
                         });
+                await _minio.GetObjectAsync(getObjectArgs);
+                if (pdf != null)
+                {
+                    _logger.Info("SUCCEEDED: We have copied a file successfully");
+                    //_ocrClient.OcrPdf(pdf);
+                }
+                else
+                {
+                    _logger.Info("FAILED: No file copied");
+                }
             }
             catch (MinioException e)
             {
