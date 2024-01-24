@@ -60,7 +60,7 @@ namespace NPaperless.BusinessLogic.Services
             if (pdf != null)
             {
                 _logger.Info("We got something! ");
-                string yesyes = _ocrClient.OcrPdf(pdf);
+                string yesyes = await _ocrClient.OcrPdf(pdf);
                 _logger.Info("OCR RESULT: "+yesyes);
             }
             else
@@ -69,15 +69,16 @@ namespace NPaperless.BusinessLogic.Services
             }
         }
 
-        protected async Task<Stream> GetFileFromMinIO(string fileName)
+        protected async Task<MemoryStream> GetFileFromMinIO(string fileName)
         {
-            Stream? pdf = new MemoryStream();
+            MemoryStream pdf = new MemoryStream();
+
             try
             {
                 StatObjectArgs statObjectArgs = new StatObjectArgs()
                                     .WithBucket("npaperless-bucket")
                                     .WithObject(fileName);
-                var isHere = await _minio.StatObjectAsync(statObjectArgs);
+                await _minio.StatObjectAsync(statObjectArgs);
 
                 var getObjectArgs = new GetObjectArgs()
                         .WithBucket("npaperless-bucket")
@@ -90,11 +91,11 @@ namespace NPaperless.BusinessLogic.Services
                 if (pdf != null)
                 {
                     _logger.Info("SUCCEEDED: We have copied a file successfully");
-                    //_ocrClient.OcrPdf(pdf);
                 }
                 else
                 {
                     _logger.Info("FAILED: No file copied");
+                    throw new Exception("No file copied");
                 }
             }
             catch (MinioException e)

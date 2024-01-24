@@ -6,6 +6,19 @@ WORKDIR /app
 EXPOSE 80
 EXPOSE 443
 
+# Install libs for Tesseract & ImageMagick
+RUN apt-get update
+RUN apt-get install -y git cmake build-essential ghostscript
+RUN mkdir leptonica
+RUN git clone https://github.com/DanBloomberg/leptonica.git /leptonica
+
+WORKDIR /leptonica
+RUN mkdir build
+WORKDIR /leptonica/build
+RUN cmake ..
+
+RUN apt-get install -y libleptonica-dev libtesseract-dev
+
 # Build container
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 
@@ -44,6 +57,11 @@ RUN dotnet publish "NPaperless.REST.csproj" -c Release -o /app/publish
 
 # Make the final image for publishing
 FROM base AS final
+# Link libs for Tesseract
+WORKDIR /app/x64
+RUN ln -s /usr/lib/x86_64-linux-gnu/liblept.so.5 libleptonica-1.80.0.so
+RUN ln -s /usr/lib/x86_64-linux-gnu/libtesseract.so.4.0.1 libtesseract41.so
+
 WORKDIR /app
 COPY --from=publish /app/publish .
 
