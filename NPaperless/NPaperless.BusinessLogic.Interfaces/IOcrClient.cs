@@ -8,6 +8,6 @@ namespace NPaperless.BusinessLogic.Interfaces
 {
     public interface IOcrClient
     {
-        string OcrPdf(Stream pdfStream);
+        string OcrPdf(MemoryStream pdfStream);
     }
 }
