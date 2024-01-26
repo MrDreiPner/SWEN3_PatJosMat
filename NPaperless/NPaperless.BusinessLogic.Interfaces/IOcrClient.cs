@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +8,6 @@ namespace NPaperless.BusinessLogic.Interfaces
 {
     public interface IOcrClient
     {
-        Task<string> OcrPdf(MemoryStream pdfStream);
+        string OcrPdf(MemoryStream pdfStream);
     }
 }

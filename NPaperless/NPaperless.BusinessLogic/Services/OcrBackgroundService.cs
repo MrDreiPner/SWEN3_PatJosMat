@@ -60,8 +60,8 @@ namespace NPaperless.BusinessLogic.Services
             if (pdf != null)
             {
                 _logger.Info("We got something! ");
-                string yesyes = await _ocrClient.OcrPdf(pdf);
-                _logger.Info("OCR RESULT: "+yesyes);
+                string result = _ocrClient.OcrPdf(pdf);
+                _logger.Info("OCR RESULT: "+ result);
             }
             else
             {
@@ -71,8 +71,8 @@ namespace NPaperless.BusinessLogic.Services
 
         protected async Task<MemoryStream> GetFileFromMinIO(string fileName)
         {
-            MemoryStream pdf = new MemoryStream();
-
+            MemoryStream? pdf = new MemoryStream();
+            _logger.Info("Initial PDF Length: " + pdf.Length);
             try
             {
                 StatObjectArgs statObjectArgs = new StatObjectArgs()
@@ -90,7 +90,9 @@ namespace NPaperless.BusinessLogic.Services
                 await _minio.GetObjectAsync(getObjectArgs);
                 if (pdf != null)
                 {
-                    _logger.Info("SUCCEEDED: We have copied a file successfully");
+                    _logger.Info("SUCCEEDED: We have copied a file successfully. PDF Length: " + pdf.Length);
+
+                    //_ocrClient.OcrPdf(pdf);
                 }
                 else
                 {

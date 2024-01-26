@@ -18,22 +18,23 @@ namespace NPaperless.BusinessLogic.TesseractOCR
             _configuration = configuration;
         }
 
-        public async Task<string> OcrPdf(MemoryStream pdfStream)
+        public string OcrPdf(MemoryStream pdfStream)
         {
-            _logger.Info("Starting OCR operation, over");
+            pdfStream.Seek(0, SeekOrigin.Begin);
+            _logger.Info("Starting OCR operation with PDF file (length)"+pdfStream.Length);
             string tessDataPath = _configuration["TesseractOCR:Path"];
             string language = _configuration["TesseractOCR:Language"];
 
             var stringBuilder = new StringBuilder();
-
-            pdfStream.Position = 0;
             try
             {
                 using (var magickImages = new MagickImageCollection())
                 {
-                    _logger.Info("In MagicImages and doing magic");
-                    await magickImages.ReadAsync(pdfStream); //We fucky wucky here fyi
-                    _logger.Info("Magic is read");
+
+                    _logger.Info("Converting PDF to images");
+                    magickImages.Read(pdfStream);
+
+                    _logger.Info("Performing OCR on each image");
                     foreach (var magickImage in magickImages)
                     {
                         _logger.Info("ForEaching");
@@ -54,13 +55,13 @@ namespace NPaperless.BusinessLogic.TesseractOCR
                         }
                     }
                 }
+                _logger.Info("Extracted string: " + stringBuilder.ToString());
+                
             }
-
             catch (Exception ex)
             {
-                _logger.Error("Error in OCR: " + ex);
+                _logger.Error(ex);
             }
-            _logger.Info("Extracted string: "+stringBuilder.ToString());
             return stringBuilder.ToString();
         }
     }
