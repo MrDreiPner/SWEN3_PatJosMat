@@ -83,7 +83,7 @@ namespace NPaperless.BusinessLogic.Services
 
         protected string generateUniqueFileName(string passedFileName)
         {
-            return Guid.NewGuid().ToString() + "_" + passedFileName;
+            return passedFileName + "_" + Guid.NewGuid().ToString()  ;
         }
 
         protected async Task SaveFileToMinIO(IFormFile file, string uniqueFileName)
