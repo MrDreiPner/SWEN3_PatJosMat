@@ -39,7 +39,7 @@ namespace NPaperless.BusinessLogic.TesseractOCR
                     {
                         _logger.Info("ForEaching");
                         // Set the resolution and format of the image (adjust as needed)
-                        magickImage.Density = new Density(300, 300);
+                        magickImage.Density = new Density(4000, 4000);
                         magickImage.Format = MagickFormat.Png;
 
                         // Perform OCR on the image

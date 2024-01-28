@@ -27,16 +27,16 @@ namespace NPaperless.BusinessLogic.Services
     {
         private static readonly ILog _logger = LogManager.GetLogger(typeof(DocumentService));
         private readonly IMapper _mapper;
-        private readonly IValidator _validator;
+        private readonly IValidator _validatorBL;
         private readonly IDocumentDALRepository _repository;
         private readonly IMinioClient _minio;
         private readonly IMessageSender _messageSender;
         private readonly IOcrClient _crClient;
 
-        public DocumentService(IMapper mapper, IValidator<DocumentBL> validator, IDocumentDALRepository repository, IMinioClient minio, IMessageSender messageSender)
+        public DocumentService(IMapper mapper, IValidator<DocumentBL> validatorBL, IDocumentDALRepository repository, IMinioClient minio, IMessageSender messageSender)
         {
             _mapper = mapper;
-            _validator = validator;
+            _validatorBL = validatorBL;
             _repository = repository;
             _minio = minio;
             _messageSender = messageSender;
@@ -47,14 +47,16 @@ namespace NPaperless.BusinessLogic.Services
             _logger.Info("creating document");
             try
             {
-                var validationContext = new ValidationContext<DocumentBL>(document);
-                var validationResult = _validator.Validate(validationContext);
+                var validationContextBL = new ValidationContext<DocumentBL>(document);
+                _logger.Info("Document title validation -> passed title:" + document.Title);
+                var validationResult = _validatorBL.Validate(validationContextBL);
                 if (!validationResult.IsValid)
                 {
                     return new BadRequestResult();
                 }
-
+                string fileName = document.UploadDocument.FileName;
                 DocumentDAL documentDAL = _mapper.Map<DocumentDAL>(document);
+                documentDAL.Title = fileName;
                 int fileId = _repository.CreateDocument(documentDAL);
                 string uniqueFileName = generateUniqueFileName(document.UploadDocument.FileName);
                 await SaveFileToMinIO(document.UploadDocument, uniqueFileName);
@@ -70,7 +72,7 @@ namespace NPaperless.BusinessLogic.Services
             catch
             (Exception e)
             {
-                _logger.Error($"Upload Document Error: {e.Message}");
+                _logger.Error(e);
                 return new StatusCodeResult(500);
             }
 
