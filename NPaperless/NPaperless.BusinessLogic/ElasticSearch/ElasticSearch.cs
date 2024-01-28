@@ -19,7 +19,7 @@ namespace NPaperless.BusinessLogic.ElasticSearch
 
         public ElasticSearch(IConfiguration configuration)
         {
-            this._uri = new Uri(configuration.GetConnectionString("ElasticSearch") ?? "http://localhost:9200/");
+            this._uri = new Uri(configuration.GetConnectionString("ElasticSearch") ?? "http://elasticsearch:9200/");
         }
 
         public void AddDocumentAsync(ElasticDocument document)

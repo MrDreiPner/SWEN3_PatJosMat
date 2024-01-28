@@ -29,13 +29,15 @@ namespace NPaperless.BusinessLogic.Services
         private readonly IMinioClient _minio;
         private readonly IMessageReceiver _messageReceiver;
         private readonly IOcrClient _ocrClient;
+        private readonly IElastic _elastic;
 
-        public OcrBackgroundService(IDocumentDALRepository repository, IMinioClient minio, IMessageReceiver messageReceiver, IOcrClient ocrClient)
+        public OcrBackgroundService(IDocumentDALRepository repository, IMinioClient minio, IMessageReceiver messageReceiver, IOcrClient ocrClient, IElastic elastic)
         {
             _repository = repository;
             _minio = minio;
             _ocrClient = ocrClient;
             _messageReceiver = messageReceiver;
+            _elastic = elastic;
 
             _messageReceiver.OnReceived += (sender, e) =>
             {
@@ -66,6 +68,14 @@ namespace NPaperless.BusinessLogic.Services
                 string result = _ocrClient.OcrPdf(pdf);
                 _logger.Info("OCR RESULT: "+ result);
                 UploadOcrText(id, result);
+                _logger.Info("updated db entry with ocr result");
+                ElasticDocument doc = new ElasticDocument();
+                doc.Id = id;
+                doc.Title = fileName;
+                doc.Content = result;
+                _logger.Info("adding doc to Elastic Search");
+                _elastic.AddDocumentAsync(doc);
+                _logger.Info("Job's done");
             }
             else
             {
@@ -123,5 +133,6 @@ namespace NPaperless.BusinessLogic.Services
             }
             return pdf;
         }
+
     }
 }
