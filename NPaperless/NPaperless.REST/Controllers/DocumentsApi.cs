@@ -343,8 +343,8 @@ namespace NPaperless.REST.Controllers
             document.Tags = tags;
             document.UploadDocument = uploadDocument;
 
-            if (document.Title == null)
-                document.Title = uploadDocument.FileName;
+            if (document.Title == null && document.UploadDocument != null)
+                document.Title = document.UploadDocument.FileName;
 
             _logger.Debug("All received data. Title: " + document.Title);
 
