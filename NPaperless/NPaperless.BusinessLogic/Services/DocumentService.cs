@@ -59,7 +59,7 @@ namespace NPaperless.BusinessLogic.Services
                     DocumentDAL documentDAL = _mapper.Map<DocumentDAL>(document);
                     documentDAL.Title = fileName;
                     int fileId = _repository.CreateDocument(documentDAL);
-                    string uniqueFileName = generateUniqueFileName(document.UploadDocument.FileName);
+                    string uniqueFileName = generateUniqueFileName(fileName);
                     await SaveFileToMinIO(document.UploadDocument, uniqueFileName);
                     _logger.Info("fileId:" + fileId.ToString() + ", fileName:" + uniqueFileName + " stored");
                     _messageSender.SendMessage(fileId.ToString() + ", " + uniqueFileName);

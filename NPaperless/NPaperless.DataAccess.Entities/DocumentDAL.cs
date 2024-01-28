@@ -7,7 +7,6 @@
         public int? StoragePath { get; set; }
         public string? Title { get; set; }
         public string? Content { get; set; }
-        public List<int>? Tags { get; set; }
         public DateTime? Created { get; set; }
         public DateTime? CreatedDate { get; set; }
         public DateTime? Modified { get; set; }

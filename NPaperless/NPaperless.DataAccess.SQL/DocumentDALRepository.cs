@@ -25,24 +25,31 @@ namespace NPaperless.DataAccess.SQL
         {
             _db.Documents.Add(document);
             Save();
-            Dispose();
             _logger.Info("Added document with Id:" + document.OriginalFileName + " to Database");
             return document.Id;
         }
 
         public void DeleteDocument(int documentID)
         {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<DocumentDAL> GetAllDocuments()
-        {
-            throw new NotImplementedException();
+            var doc = _db.Documents.Find(documentID);
+            _db.Documents.Remove(doc);
+            Save();
+            _logger.Info("Deleted document with Id:" + documentID + " from Database");
+            return;
         }
 
         public DocumentDAL GetDocument(int documentID)
         {
-            throw new NotImplementedException();
+            var doc = _db.Documents.Find(documentID);
+            _logger.Info("Retrieved document with Id:" + documentID + " from Database");
+            return doc;
+        }
+
+        public IEnumerable<DocumentDAL> GetAllDocuments()
+        {
+            var docs = _db.Documents.ToList();
+            _logger.Info("Retrieved all documents from Database");
+            return docs;
         }
 
         public void UpdateDocument(int documentID, string text)
@@ -54,7 +61,6 @@ namespace NPaperless.DataAccess.SQL
             _db.Documents.Entry(doc).Property(x => x.Content).IsModified = true;
             _logger.Info("saving to DB");
             Save();
-            Dispose();
             _logger.Info("Updated document with Id:" + doc.Id + ". Content: " + doc.Content);
             return;
         }
