@@ -27,15 +27,15 @@ namespace NPaperless.BusinessLogic.Services
     {
         private static readonly ILog _logger = LogManager.GetLogger(typeof(DocumentService));
         private readonly IMapper _mapper;
-        private readonly IValidator _validatorBL;
+        private readonly IValidator _validator;
         private readonly IDocumentDALRepository _repository;
         private readonly IMinioClient _minio;
         private readonly IMessageSender _messageSender;
 
-        public DocumentService(IMapper mapper, IValidator<DocumentBL> validatorBL, IDocumentDALRepository repository, IMinioClient minio, IMessageSender messageSender)
+        public DocumentService(IMapper mapper, IValidator<DocumentBL> validator, IDocumentDALRepository repository, IMinioClient minio, IMessageSender messageSender)
         {
             _mapper = mapper;
-            _validatorBL = validatorBL;
+            _validator = validator;
             _repository = repository;
             _minio = minio;
             _messageSender = messageSender;
@@ -46,9 +46,9 @@ namespace NPaperless.BusinessLogic.Services
             _logger.Info("creating document");
             try
             {
-                var validationContextBL = new ValidationContext<DocumentBL>(document);
+                var validationContext = new ValidationContext<DocumentBL>(document);
                 _logger.Info("Document title validation -> passed title:" + document.Title);
-                var validationResult = _validatorBL.Validate(validationContextBL);
+                var validationResult = _validator.Validate(validationContext);
                 if (!validationResult.IsValid)
                 {
                     return new BadRequestResult();
@@ -69,7 +69,7 @@ namespace NPaperless.BusinessLogic.Services
             catch
             (Exception e)
             {
-                _logger.Error(e);
+                _logger.Error($"Upload Document Error: {e.Message}");
                 return new StatusCodeResult(500);
             }
 
