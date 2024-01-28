@@ -71,19 +71,16 @@ namespace NPaperless.REST.Controllers
             }
             catch(Exception ex)
             {
-                _logger.Info(ex.Message);
-                return new ObjectResult("Error when searching for document");
+                _logger.Info(ex + ex.Message);
+                switch (ex)
+                {
+                    case ArgumentNullException:
+                        _logger.Info("no searchterm given");
+                        return new StatusCodeResult(500);
+                    default:
+                        return new ObjectResult("Error when searching for document");
+                }        
             }
-            //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(200, default(List<string>));
-            //string exampleJson = null;
-            //exampleJson = "[ \"\", \"\" ]";
-            
-            //var example = exampleJson != null
-            //? JsonConvert.DeserializeObject<List<string>>(exampleJson)
-            //: default(List<string>);
-            ////TODO: Change the data returned
-            //return new ObjectResult(example);
         }
     }
 }

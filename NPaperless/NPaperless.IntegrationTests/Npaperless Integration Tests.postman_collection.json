@@ -1,0 +1,74 @@
+{
+	"info": {
+		"_postman_id": "2cad364a-89ee-4116-8f5c-737b8c195535",
+		"name": "Npaperless Integration Tests",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Search Docs Success",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "http://localhost:8081/api/search/autocomplete?term=test",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"api",
+						"search",
+						"autocomplete"
+					],
+					"query": [
+						{
+							"key": "term",
+							"value": "test"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post Doc",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "document",
+							"type": "file",
+							"src": "/C:/Users/patri/Desktop/Technikum/5.Sem/swen/NPaperless/NPaperless/NPaperless.IntegrationTests/paperless-test.pdf"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8081/api/documents/post_document",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"api",
+						"documents",
+						"post_document"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

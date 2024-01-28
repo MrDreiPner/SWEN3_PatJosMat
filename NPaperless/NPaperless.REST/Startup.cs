@@ -83,6 +83,7 @@ namespace NPaperless.REST
 
             _logger.Info("Adding validators.");
             services.AddScoped<IValidator<DocumentBL>, DocumentValidator>();
+            services.AddScoped<IValidator<string>, SearchTermValidator>();
 
             _logger.Info("Adding database context.");
             services.AddDbContext<NPaperlessDbContext>(options => options.UseNpgsql("Host=npaperless-db;Username=dev;Password=dev;Database=npaperless"));

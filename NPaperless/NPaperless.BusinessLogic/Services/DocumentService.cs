@@ -68,7 +68,7 @@ namespace NPaperless.BusinessLogic.Services
                 else
                 {
                     _logger.Info("No document content to service -> nullreference");
-                    throw new ();
+                    throw new NullReferenceException();
                 }
 
                 return new OkResult();

@@ -9,6 +9,8 @@ using NPaperless.BusinessLogic.Interfaces;
 using log4net;
 using NPaperless.BusinessLogic.Services;
 using NPaperless.BusinessLogic.Entities;
+using NPaperless.BusinessLogic.Validators;
+using Microsoft.AspNetCore.Mvc;
 
 namespace NPaperless.BusinessLogic.ElasticSearch
 {
@@ -16,6 +18,7 @@ namespace NPaperless.BusinessLogic.ElasticSearch
     {
         private readonly Uri _uri;
         private static readonly ILog _logger = LogManager.GetLogger(typeof(OcrBackgroundService));
+        private readonly SearchTermValidator _termValidator;
 
         public ElasticSearch(IConfiguration configuration)
         {
@@ -41,6 +44,13 @@ namespace NPaperless.BusinessLogic.ElasticSearch
 
         public IEnumerable<ElasticDocument> SearchDocumentAsync(string searchTerm)
         {
+            var validationResult = _termValidator.Validate(searchTerm);
+
+            if (!validationResult.IsValid)
+            {
+                _logger.Info("search term is not valid");
+                throw new ArgumentNullException();
+            }
             _logger.Debug("Passed searchterm -> " + searchTerm);
             var elasticClient = new ElasticsearchClient(_uri);
 
