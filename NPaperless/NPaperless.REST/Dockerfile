@@ -109,8 +109,6 @@ RUN if [ "$CPU_BIT" != "64" ]; then \
 
 # Create a symbolic link inside /App/x64/
 RUN ln -s /usr/lib/x86_64-linux-gnu/libleptonica.so /app/x64/libleptonica-1.82.0.so
-
-#RUN ln -s /usr/lib/x86_64-linux-gnu/libleptonica.so.5 App/x64/libleptonica-1.82.0.dll
 RUN ln -s /usr/lib/x86_64-linux-gnu/libtesseract.so.5 /app/x64/libtesseract50.so
 
 # some libs are needed

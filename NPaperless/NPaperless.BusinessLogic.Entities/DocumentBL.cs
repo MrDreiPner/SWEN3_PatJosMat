@@ -80,6 +80,6 @@ namespace NPaperless.BusinessLogic.Entities
         /// <summary>
         /// Gets or Sets UploadDocument
         /// </summary>
-        public IFormFile UploadDocument { get; set; }
+        public IFormFile? UploadDocument { get; set; }
     }
 }
