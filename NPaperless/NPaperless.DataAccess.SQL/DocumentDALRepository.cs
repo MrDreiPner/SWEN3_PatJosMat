@@ -37,7 +37,7 @@ namespace NPaperless.DataAccess.SQL
 
         public IEnumerable<DocumentDAL> GetAllDocuments()
         {
-
+            throw new NotImplementedException();
         }
 
         public DocumentDAL GetDocument(int documentID)
