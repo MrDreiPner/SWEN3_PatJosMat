@@ -19,6 +19,9 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 using Newtonsoft.Json;
 using NPaperless.REST.Attributes;
 using NPaperless.REST;
+using log4net;
+using NPaperless.BusinessLogic.Services;
+using NPaperless.BusinessLogic.Interfaces;
 
 namespace NPaperless.REST.Controllers
 { 
@@ -28,6 +31,15 @@ namespace NPaperless.REST.Controllers
     [ApiController]
     public class SearchApiController : ControllerBase
     { 
+        private readonly ILog _logger = LogManager.GetLogger(typeof(SearchApiController));
+        private readonly IElastic _elastic;
+
+        public SearchApiController(ILog logger, IElastic elastic)
+        {
+            _logger = logger;
+            _elastic = elastic;
+        }
+
         /// <summary>
         /// 
         /// </summary>
@@ -41,17 +53,24 @@ namespace NPaperless.REST.Controllers
         [SwaggerResponse(statusCode: 200, type: typeof(List<string>), description: "Success")]
         public virtual IActionResult AutoComplete([FromQuery (Name = "term")]string term, [FromQuery (Name = "limit")]int? limit)
         {
-
+            _logger.Info("got search request with search term: " + term);
+            var searchResult = _elastic.SearchDocumentAsync(term);
+            List<string> stringResult = new List<string>();
+            foreach(var doc in  searchResult)
+            {
+                stringResult.Add(doc.Title + ": " + doc.Content);
+            }
+            return new ObjectResult(stringResult[0]);
             //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(200, default(List<string>));
-            string exampleJson = null;
-            exampleJson = "[ \"\", \"\" ]";
+            //string exampleJson = null;
+            //exampleJson = "[ \"\", \"\" ]";
             
-            var example = exampleJson != null
-            ? JsonConvert.DeserializeObject<List<string>>(exampleJson)
-            : default(List<string>);
-            //TODO: Change the data returned
-            return new ObjectResult(example);
+            //var example = exampleJson != null
+            //? JsonConvert.DeserializeObject<List<string>>(exampleJson)
+            //: default(List<string>);
+            ////TODO: Change the data returned
+            //return new ObjectResult(example);
         }
     }
 }

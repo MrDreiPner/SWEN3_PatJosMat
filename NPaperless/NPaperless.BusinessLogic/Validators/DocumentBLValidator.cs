@@ -14,6 +14,7 @@ namespace NPaperless.BusinessLogic.Validators
         {
             RuleSet("RequiredData", () =>
             {
+                RuleFor(document => document.Title).NotNull().WithMessage("Title required");
                 RuleFor(document => document.Title).NotEmpty().WithMessage("Title required");
             });
         }
