@@ -24,6 +24,7 @@ using NPaperless.BusinessLogic.Services;
 using NPaperless.BusinessLogic.Interfaces;
 using System.IO.Pipelines;
 using System.Linq;
+using Minio;
 
 namespace NPaperless.REST.Controllers
 { 
@@ -54,17 +55,25 @@ namespace NPaperless.REST.Controllers
         [SwaggerResponse(statusCode: 200, type: typeof(List<string>), description: "Success")]
         public virtual IActionResult AutoComplete([FromQuery (Name = "term")]string term, [FromQuery (Name = "limit")]int? limit)
         {
-            _logger.Info("got search request with search term: " + term);
-            var searchResult = _elastic.SearchDocumentAsync(term);
-            string responseResult = "Found documents:\n";
-            if(searchResult != null)
+            try
             {
-                foreach (var doc in searchResult)
+                _logger.Info("got search request with search term: " + term);
+                var searchResult = _elastic.SearchDocumentAsync(term);
+                string responseResult = "Found documents:\n";
+                if (searchResult != null)
                 {
-                    responseResult += (doc.Title + ": " + doc.Content);
+                    foreach (var doc in searchResult)
+                    {
+                        responseResult += (doc.Title + ": " + doc.Content);
+                    }
                 }
-            }    
-            return new ObjectResult(responseResult);
+                return new ObjectResult(responseResult);
+            }
+            catch(Exception ex)
+            {
+                _logger.Info(ex.Message);
+                return new ObjectResult("Error when searching for document");
+            }
             //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(200, default(List<string>));
             //string exampleJson = null;
