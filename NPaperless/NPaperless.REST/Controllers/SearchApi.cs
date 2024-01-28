@@ -34,9 +34,8 @@ namespace NPaperless.REST.Controllers
         private readonly ILog _logger = LogManager.GetLogger(typeof(SearchApiController));
         private readonly IElastic _elastic;
 
-        public SearchApiController(ILog logger, IElastic elastic)
+        public SearchApiController(IElastic elastic)
         {
-            _logger = logger;
             _elastic = elastic;
         }
 
@@ -60,7 +59,7 @@ namespace NPaperless.REST.Controllers
             {
                 stringResult.Add(doc.Title + ": " + doc.Content);
             }
-            return new ObjectResult(stringResult[0]);
+            return new ObjectResult(stringResult);
             //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(200, default(List<string>));
             //string exampleJson = null;

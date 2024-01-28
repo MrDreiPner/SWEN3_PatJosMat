@@ -53,15 +53,23 @@ namespace NPaperless.BusinessLogic.Services
                 {
                     return new BadRequestResult();
                 }
-                string fileName = document.UploadDocument.FileName;
-                DocumentDAL documentDAL = _mapper.Map<DocumentDAL>(document);
-                documentDAL.Title = fileName;
-                int fileId = _repository.CreateDocument(documentDAL);
-                string uniqueFileName = generateUniqueFileName(document.UploadDocument.FileName);
-                await SaveFileToMinIO(document.UploadDocument, uniqueFileName);
-                _logger.Info("fileId:" + fileId.ToString() + ", fileName:" + uniqueFileName + " stored");
-                _messageSender.SendMessage(fileId.ToString() + ", " + uniqueFileName);
-                _logger.Info("fileId:" + fileId.ToString() + ", fileName:" + uniqueFileName + " queued");
+                if(document.UploadDocument != null)
+                {
+                    string fileName = document.UploadDocument.FileName;
+                    DocumentDAL documentDAL = _mapper.Map<DocumentDAL>(document);
+                    documentDAL.Title = fileName;
+                    int fileId = _repository.CreateDocument(documentDAL);
+                    string uniqueFileName = generateUniqueFileName(document.UploadDocument.FileName);
+                    await SaveFileToMinIO(document.UploadDocument, uniqueFileName);
+                    _logger.Info("fileId:" + fileId.ToString() + ", fileName:" + uniqueFileName + " stored");
+                    _messageSender.SendMessage(fileId.ToString() + ", " + uniqueFileName);
+                    _logger.Info("fileId:" + fileId.ToString() + ", fileName:" + uniqueFileName + " queued");
+                }
+                else
+                {
+                    _logger.Info("No document content to service -> nullreference");
+                    throw new ();
+                }
 
                 return new OkResult();
             }

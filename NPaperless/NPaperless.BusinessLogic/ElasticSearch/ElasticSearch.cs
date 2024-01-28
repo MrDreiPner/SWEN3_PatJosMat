@@ -41,6 +41,7 @@ namespace NPaperless.BusinessLogic.ElasticSearch
 
         public IEnumerable<ElasticDocument> SearchDocumentAsync(string searchTerm)
         {
+            _logger.Debug("Passed searchterm -> " + searchTerm);
             var elasticClient = new ElasticsearchClient(_uri);
 
             var searchResponse = elasticClient.Search<ElasticDocument>(s => s

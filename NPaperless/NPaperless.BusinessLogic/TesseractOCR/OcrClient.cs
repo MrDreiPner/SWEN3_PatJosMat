@@ -10,7 +10,7 @@ namespace NPaperless.BusinessLogic.TesseractOCR
 {
     public class OcrClient : IOcrClient
     {
-        private static readonly ILog _logger = LogManager.GetLogger(typeof(OcrBackgroundService));
+        private static readonly ILog _logger = LogManager.GetLogger(typeof(OcrClient));
         private readonly IConfiguration _configuration;
 
         public OcrClient(IConfiguration configuration)
