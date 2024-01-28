@@ -23,6 +23,7 @@ using log4net;
 using NPaperless.BusinessLogic.Services;
 using NPaperless.BusinessLogic.Interfaces;
 using System.IO.Pipelines;
+using System.Linq;
 
 namespace NPaperless.REST.Controllers
 { 
@@ -55,17 +56,15 @@ namespace NPaperless.REST.Controllers
         {
             _logger.Info("got search request with search term: " + term);
             var searchResult = _elastic.SearchDocumentAsync(term);
-            List<string> stringResult = new List<string>();
-            foreach(var doc in  searchResult)
+            string responseResult = "Found documents:\n";
+            if(searchResult != null)
             {
-                stringResult.Add(doc.Title + ": " + doc.Content);
-            }
-            string realResult = null;
-            if (stringResult.Count > 0)
-            {
-                realResult = stringResult[0];
-            }
-            return new ObjectResult(realResult);
+                foreach (var doc in searchResult)
+                {
+                    responseResult += (doc.Title + ": " + doc.Content);
+                }
+            }    
+            return new ObjectResult(responseResult);
             //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(200, default(List<string>));
             //string exampleJson = null;
