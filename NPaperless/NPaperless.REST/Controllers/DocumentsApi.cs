@@ -23,6 +23,8 @@ using NPaperless.BusinessLogic.Interfaces;
 using AutoMapper;
 using NPaperless.BusinessLogic.Entities;
 using System.Threading.Tasks;
+using log4net;
+using NPaperless.BusinessLogic.Services;
 
 namespace NPaperless.REST.Controllers
 {
@@ -34,6 +36,7 @@ namespace NPaperless.REST.Controllers
     {
         private readonly IDocumentService _service;
         private readonly IMapper _mapper;
+        private static readonly ILog _logger = LogManager.GetLogger(typeof(DocumentService));
 
         public DocumentsApiController(IDocumentService service, IMapper mapper)
         {
@@ -339,6 +342,11 @@ namespace NPaperless.REST.Controllers
             document.DocumentType = documentType;
             document.Tags = tags;
             document.UploadDocument = uploadDocument;
+
+            if (document.Title == null && document.UploadDocument != null)
+                document.Title = document.UploadDocument.FileName;
+
+            _logger.Debug("All received data. Title: " + document.Title);
 
             //use mapper here
             DocumentBL documentBL = _mapper.Map<DocumentBL>(document);
