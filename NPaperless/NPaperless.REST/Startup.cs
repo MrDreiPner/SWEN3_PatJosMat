@@ -42,6 +42,7 @@ using System.Threading.Tasks;
 using NPaperless.BusinessLogic.Mappers;
 using NPaperless.BusinessLogic.RabbitMQ;
 using NPaperless.BusinessLogic.TesseractOCR;
+using NPaperless.BusinessLogic.ElasticSearch;
 
 namespace NPaperless.REST
 {
@@ -163,6 +164,9 @@ namespace NPaperless.REST
             _logger.Info("Adding TesseractOCR to Services");
             services.AddSingleton<IOcrClient, OcrClient>();
             services.AddHostedService<OcrBackgroundService>();
+
+            _logger.Info("Adding Elastic Search to Services");
+            services.AddSingleton<IElastic, ElasticSearch>();
 
 
             _logger.Info("END: Configure Services.");
