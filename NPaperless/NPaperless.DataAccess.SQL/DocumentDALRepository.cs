@@ -15,6 +15,12 @@ namespace NPaperless.DataAccess.SQL
         {
             _db = new NPaperlessDbContext();
         }
+
+        public DocumentDALRepository(NPaperlessDbContext db)
+        {
+            _db = db;
+        }
+
         public int CreateDocument(DocumentDAL document)
         {
             _db.Documents.Add(document);
@@ -31,7 +37,7 @@ namespace NPaperless.DataAccess.SQL
 
         public IEnumerable<DocumentDAL> GetAllDocuments()
         {
-            throw new NotImplementedException();
+
         }
 
         public DocumentDAL GetDocument(int documentID)

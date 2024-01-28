@@ -31,7 +31,6 @@ namespace NPaperless.BusinessLogic.Services
         private readonly IDocumentDALRepository _repository;
         private readonly IMinioClient _minio;
         private readonly IMessageSender _messageSender;
-        private readonly IOcrClient _crClient;
 
         public DocumentService(IMapper mapper, IValidator<DocumentBL> validator, IDocumentDALRepository repository, IMinioClient minio, IMessageSender messageSender)
         {
@@ -61,8 +60,6 @@ namespace NPaperless.BusinessLogic.Services
                 _logger.Info("fileId:" + fileId.ToString() + ", fileName:" + uniqueFileName + " stored");
                 _messageSender.SendMessage(fileId.ToString() + ", " + uniqueFileName);
                 _logger.Info("fileId:" + fileId.ToString() + ", fileName:" + uniqueFileName + " queued");
-
-
 
                 return new OkResult();
             }
