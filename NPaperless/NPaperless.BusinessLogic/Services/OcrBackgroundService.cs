@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using EasyNetQ.Consumer;
 using FluentValidation;
+using ImageMagick;
 using log4net;
 using Microsoft.Extensions.Hosting;
 using Minio;
@@ -14,6 +15,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -53,20 +55,35 @@ namespace NPaperless.BusinessLogic.Services
         private async Task HandleOcrJob(string message)
         {
             _logger.Info("We received the message -> "+message);
-            int indexOfId = message.IndexOf(',');
-            string fileName = message.Substring(indexOfId+2);
+            int indexOfSeparator = message.IndexOf(',');
+            string fileName = message.Substring(indexOfSeparator+2);
             var pdf = await GetFileFromMinIO(fileName);
+            int id = int.Parse(message.Substring(0, indexOfSeparator));
             _logger.Info("We tried getting the pdf >" +fileName+" < from MinIO, lets see if its here.");
             if (pdf != null)
             {
                 _logger.Info("We got something! ");
                 string result = _ocrClient.OcrPdf(pdf);
                 _logger.Info("OCR RESULT: "+ result);
+                UploadOcrText(id, result);
             }
             else
             {
                 _logger.Info("We got NULL-thing!");
             }
+            
+        }
+ 
+        private void UploadOcrText(int id, string text)
+        {
+            try
+            {
+                _logger.Info("stepping into update");
+                _repository.UpdateDocument(id, text);
+                _logger.Info("Update complete");
+            }
+            catch (Exception ex) { }
+            return;
         }
 
         protected async Task<MemoryStream> GetFileFromMinIO(string fileName)

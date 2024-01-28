@@ -1,6 +1,7 @@
 ﻿using log4net;
 using NPaperless.DataAccess.Entities;
 using NPaperless.DataAccess.Interfaces;
+using System.Reflection.Metadata;
 
 namespace NPaperless.DataAccess.SQL
 {
@@ -38,9 +39,18 @@ namespace NPaperless.DataAccess.SQL
             throw new NotImplementedException();
         }
 
-        public void UpdateDocument(DocumentDAL document)
+        public void UpdateDocument(int documentID, string text)
         {
-            throw new NotImplementedException();
+            _logger.Info("updating DB");
+            var doc = _db.Documents.Find(documentID);
+            _logger.Info("found doc");
+            doc.Content = text;
+            _db.Documents.Entry(doc).Property(x => x.Content).IsModified = true;
+            _logger.Info("saving to DB");
+            Save();
+            Dispose();
+            _logger.Info("Updated document with Id:" + doc.Id + ". Content: " + doc.Content);
+            return;
         }
 
         public void Save()
